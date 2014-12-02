@@ -33,6 +33,14 @@ public class ClassModifierDemo {
             super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V");
         }
 
+		@Override
+		public void visitInsn(int arg0) {
+			// TODO Auto-generated method stub
+			super.visitInsn(arg0);
+		}
+
+
+
 
 
     }

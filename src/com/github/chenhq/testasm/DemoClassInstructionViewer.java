@@ -57,8 +57,7 @@ public class DemoClassInstructionViewer {
         MethodPrinterVisitor cl = new MethodPrinterVisitor(Opcodes.ASM4);
         classReader.accept(cl, 0);
         //ClassMethod method = new ClassMethod();
-        Method originalMethod = new Method("Sss", "()V");
-        int n = originalMethod.getArgumentTypes().lengthd
+
 
 //        InputStream in=ASMHelloWorld.class.getResourceAsStream("/java/lang/String.class");
 //        ClassReader classReader=new ClassReader(in);

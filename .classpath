@@ -9,6 +9,6 @@
 	<classpathentry kind="lib" path="/home/think/dev/libs/httpcomponents-client-4.3.6/lib/httpclient-cache-4.3.6.jar"/>
 	<classpathentry kind="lib" path="/home/think/dev/libs/httpcomponents-client-4.3.6/lib/httpcore-4.3.3.jar"/>
 	<classpathentry kind="lib" path="/home/think/dev/libs/httpcomponents-client-4.3.6/lib/httpmime-4.3.6.jar"/>
-	<classpathentry kind="lib" path="/home/think/dev/libs/asm-3.3.1/lib/all/asm-all-3.3.1.jar"/>
+	<classpathentry kind="lib" path="/home/think/dev/libs/asm-4.2/lib/all/asm-all-4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
