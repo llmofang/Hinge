@@ -17,7 +17,7 @@ public class ClassModifierDemo {
     public static class ModifierMethodWriter extends MethodVisitor{
 
         private String methodName;
-        
+
         public ModifierMethodWriter(int api, MethodVisitor mv, String methodName) {
             super(api, mv);
             this.methodName=methodName;
@@ -33,10 +33,10 @@ public class ClassModifierDemo {
             super.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/io/PrintStream", "println", "(Ljava/lang/String;)V");
         }
 
-        
-        
+
+
     }
-    
+
     //Our class modifier class visitor. It delegate all calls to the super class
     //Only makes sure that it returns our MethodVisitor for every method
     public static class ModifierClassWriter extends ClassVisitor{
@@ -54,20 +54,20 @@ public class ClassModifierDemo {
             ModifierMethodWriter mvw=new ModifierMethodWriter(api, mv, name);
             return mvw;
         }
-        
-        
-        
+
+
+
     }
 
     public static void main(String[] args) throws IOException {
-        InputStream in=ASMHelloWorld.class.getResourceAsStream("/com/geekyarticles/asm/ClassModificationDemo.class");
+        InputStream in=ASMHelloWorld.class.getResourceAsStream("/com/github/chenhq/testasm/ClassModificationDemo.class");
         ClassReader classReader=new ClassReader(in);
         ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        
+
         //Wrap the ClassWriter with our custom ClassVisitor
         ModifierClassWriter mcw=new ModifierClassWriter(Opcodes.ASM4, cw);
         classReader.accept(mcw, 0);
-        
+
         //Write the output to a class file
         File outputDir=new File("out/com/geekyarticles/asm");
         outputDir.mkdirs();
