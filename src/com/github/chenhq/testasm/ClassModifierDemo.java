@@ -12,6 +12,11 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+import com.github.chenhq.agent.compile.FileLogImpl;
+import com.github.chenhq.agent.compile.Log;
+import com.github.chenhq.agent.compile.visitor.WrapMethodClassVisitor;
+
+
 public class ClassModifierDemo {
 
     public static class ModifierMethodWriter extends MethodVisitor{
@@ -73,13 +78,17 @@ public class ClassModifierDemo {
         ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
         //Wrap the ClassWriter with our custom ClassVisitor
-        ModifierClassWriter mcw=new ModifierClassWriter(Opcodes.ASM4, cw);
-        classReader.accept(mcw, 0);
+        //ModifierClassWriter mcw=new ModifierClassWriter(Opcodes.ASM4, cw);
+        
+        String logFileName = "/tmp/test.log";
+        Log log = new FileLogImpl()
+        WrapMethodClassVisitor wmcv = new WrapMethodClassVisitor(Opcodes.ASM4,cw);
+        classReader.accept(wmcv, 0);
 
         //Write the output to a class file
         File outputDir=new File("out/com/geekyarticles/asm");
         outputDir.mkdirs();
-        DataOutputStream dout=new DataOutputStream(new FileOutputStream(new File(outputDir,"ClassModificationDemo.class")));
+        DataOutputStream dout=new DataOutputStream(new FileOutputStream(new File(outputDir,"ClassModificationDemo3.class")));
         dout.write(cw.toByteArray());
     }
 

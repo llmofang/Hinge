@@ -1,39 +1,40 @@
-/*    */ package com.github.chenhq.agent.compile.visitor;
-/*    */
-/*    */ import com.github.chenhq.agent.compile.InstrumentationContext;
-/*    */ import com.github.chenhq.agent.compile.Log;
+ package com.github.chenhq.agent.compile.visitor;
 
-import org.objectweb.asm.ClassAdapter;
-/*    */// import org.objectweb.asm.ClassAdapter;
-/*    */ import org.objectweb.asm.ClassVisitor;
+ import com.github.chenhq.agent.compile.InstrumentationContext;
+ import com.github.chenhq.agent.compile.Log;
 
-/*    */ import java.text.MessageFormat;
-/*    */
-/*    */ public class AnnotatingClassVisitor extends ClassAdapter
-/*    */ {
-/*    */   private final InstrumentationContext context;
-/*    */   private final Log log;
-/*    */
-/*    */   public AnnotatingClassVisitor(ClassVisitor cv, InstrumentationContext context, Log log)
-/*    */   {
-/* 16 */     super(cv);
-/* 17 */     this.context = context;
-/* 18 */     this.log = log;
-/*    */   }
-/*    */
-/*    */   public void visitEnd()
-/*    */   {
-/* 26 */     if (this.context.isClassModified()) {
-/* 27 */       this.context.addUniqueTag("Lcom/newrelic/agent/android/instrumentation/Instrumented;");
-/* 28 */       super.visitAnnotation("Lcom/newrelic/agent/android/instrumentation/Instrumented;", false);
-/* 29 */       this.log.info(MessageFormat.format("[{0}] tagging as instrumented", new Object[] { this.context.getFriendlyClassName() }));
-/*    */     }
-/*    */
-/* 32 */     super.visitEnd();
-/*    */   }
-/*    */ }
+// import org.objectweb.asm.ClassAdapter;
+// import org.objectweb.asm.ClassAdapter;
+ import org.objectweb.asm.ClassVisitor;
+ import org.objectweb.asm.Opcodes;
 
-/* Location:           /home/think/Downloads/newrelic-android-4.120.0/lib/class.rewriter.jar
- * Qualified Name:     com.newrelic.agent.compile.visitor.AnnotatingClassVisitor
- * JD-Core Version:    0.6.2
- */
+ import java.text.MessageFormat;
+
+ public class AnnotatingClassVisitor extends ClassVisitor
+ {
+   private final InstrumentationContext context;
+   private final Log log;
+
+   public AnnotatingClassVisitor(ClassVisitor cv, InstrumentationContext context, Log log)
+   {
+     super(Opcodes.ASM4,cv);
+     this.context = context;
+     this.log = log;
+   }
+
+   public void visitEnd()
+   {
+     if (this.context.isClassModified()) {
+       this.context.addUniqueTag("Lcom/newrelic/agent/android/instrumentation/Instrumented;");
+       super.visitAnnotation("Lcom/newrelic/agent/android/instrumentation/Instrumented;", false);
+       this.log.info(MessageFormat.format("[{0}] tagging as instrumented", new Object[] { this.context.getFriendlyClassName() }));
+     }
+
+     super.visitEnd();
+   }
+ }
+
+
+
+
+

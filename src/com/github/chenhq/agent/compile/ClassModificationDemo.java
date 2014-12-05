@@ -1,4 +1,4 @@
-package com.github.chenhq.testasm;
+package com.github.chenhq.agent.compile;
 
 import java.io.IOException;
 
