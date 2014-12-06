@@ -131,7 +131,7 @@ public class ClassRemapperConfig {
 		//URL resource= ClassRemapperConfig.class.getResource("/type_map.properties");
 		URL resource = null;
 		try {
-			resource = new URL("file:///tmp/type_map.properties");
+			resource = new URL("file:///home/think/workspace_java/TestASM/type_map.properties");
 		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

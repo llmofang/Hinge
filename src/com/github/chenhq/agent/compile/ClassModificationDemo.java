@@ -12,7 +12,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class ClassModificationDemo {
 
 private int version;
-    
+
     public int getVersion() {
         return version;
     }
@@ -25,21 +25,14 @@ private int version;
     public String toString(){
         return "ClassCreationDemo: "+version;
     }
-    
+
     public static void main(String[] args) {
         System.out.println(new ClassModificationDemo());
-        
+
         HttpClient client = new DefaultHttpClient();
-        String uri = "http://www.baidu.com";
+        String uri = "http://www.baidu.com/";
         HttpGet get = new HttpGet(uri);
         ResponseHandler<String> responseHandle = new BasicResponseHandler();
-
-        /**
-         * proxy setting
-         */
-
-//        HttpHost proxy = new HttpHost("127.0.0.1", 8000);
-//        client.getParams().setParameter(ConnRouteParams.DEFAULT_PROXY, proxy);
 
         String responseBody = "";
 		try {

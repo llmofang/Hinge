@@ -76,7 +76,7 @@ public class ClassModifierDemo {
         String logFileName = "/tmp/test.log";
         Log log = new FileLogImpl(logFileName, true);
         log.debug("Bootstrapping New Relic Android class rewriter");
-        
+
         ClassRemapperConfig config = null;
 		try {
 			config = new ClassRemapperConfig(log);
@@ -84,11 +84,11 @@ public class ClassModifierDemo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
         InstrumentationContext context = new InstrumentationContext(config, log);
-        
-        
-        
+
+
+
         InputStream in=ASMHelloWorld.class.getResourceAsStream("/com/github/chenhq/agent/compile/ClassModificationDemo.class");
         ClassReader classReader=new ClassReader(in);
         ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES);
