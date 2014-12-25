@@ -1,0 +1,31 @@
+apply plugin: showFilePlugin
+
+
+class showFilePlugin implements Plugin<Project> {
+    void apply(Project project) {
+
+        project.extensions.create("dateAndTime", DateAndTimePluginExtension)
+
+        project.task('showFile') << {
+            //println 'projectPath: '+project.getPath()
+           println 'projectBuildPath' +project.getProjectDir().getPath()
+            File root = new File(project.getProjectDir().getPath())
+           showAllFiles(root)
+
+        }
+        }
+    void showAllFiles(File dir){
+        File[] fs = dir.listFiles();
+        for(int i=0; i<fs.length; i++){
+            System.out.println(fs[i].getAbsolutePath());
+            if(fs[i].isDirectory()){
+                try{
+                    showAllFiles(fs[i]);
+                }catch(Exception e){}
+            }
+
+    }
+
+    }
+}
+
