@@ -3,6 +3,7 @@
  import java.io.FileNotFoundException;
  import java.io.FileOutputStream;
  import java.io.PrintWriter;
+ import com.llmofang.hinge.agent.compile.Log;
  
  final class FileLogImpl
    implements Log

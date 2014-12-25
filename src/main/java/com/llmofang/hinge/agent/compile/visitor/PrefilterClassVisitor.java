@@ -1,7 +1,9 @@
 package com.llmofang.hinge.agent.compile.visitor;
 
-import com.github.chenhq.agent.compile.InstrumentationContext;
-import com.github.chenhq.agent.compile.Log;
+import com.llmofang.hinge.agent.compile.InstrumentationContext;
+import com.llmofang.hinge.agent.compile.Log;
+import com.llmofang.hinge.agent.util.Annotations;
+
 
 import org.objectweb.asm.AnnotationVisitor;
 import org.objectweb.asm.Attribute;

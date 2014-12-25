@@ -1,8 +1,8 @@
 package com.llmofang.hinge.agent.compile.visitor;
 
-import com.github.chenhq.agent.compile.ClassMethod;
-import com.github.chenhq.agent.compile.InstrumentationContext;
-import com.github.chenhq.agent.compile.Log;
+import com.llmofang.hinge.agent.compile.ClassMethod;
+import com.llmofang.hinge.agent.compile.InstrumentationContext;
+import com.llmofang.hinge.agent.compile.Log;
 //import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.Label;

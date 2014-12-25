@@ -1,4 +1,4 @@
-package com.llmofang.hinge.chenhq.agent.compile;
+package com.llmofang.hinge.agent.compile;
 
 public abstract interface Log
 {

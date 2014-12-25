@@ -1,8 +1,8 @@
 package com.llmofang.hinge.agent.compile.visitor;
 
-import com.github.chenhq.agent.compile.InstrumentationContext;
-import com.github.chenhq.agent.compile.Log;
-import com.github.chenhq.agent.util.AnnotationImpl;
+import com.llmofang.hinge.agent.compile.InstrumentationContext;
+import com.llmofang.hinge.agent.compile.Log;
+import com.llmofang.hinge.agent.util.AnnotationImpl;
 import org.objectweb.asm.Type;
 
 public class TraceAnnotationVisitor extends AnnotationImpl {

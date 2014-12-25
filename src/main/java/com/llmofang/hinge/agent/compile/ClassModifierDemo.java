@@ -11,8 +11,8 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-import com.github.chenhq.agent.compile.visitor.WrapMethodClassVisitor;
-import com.github.chenhq.testasm.ASMHelloWorld;
+import com.llmofang.hinge.agent.compile.visitor.WrapMethodClassVisitor;
+//import com.llmofang.hinge.testasm.ASMHelloWorld;
 
 public class ClassModifierDemo {
 
@@ -89,14 +89,14 @@ public class ClassModifierDemo {
 
 
 
-        InputStream in=ASMHelloWorld.class.getResourceAsStream("/com/github/chenhq/agent/compile/ClassModificationDemo.class");
+        InputStream in=ClassModifierDemo.class.getResourceAsStream("/com/llmofang/hinge/agent/compile/ClassModificationDemo.class");
         ClassReader classReader=new ClassReader(in);
         ClassWriter cw=new ClassWriter(ClassWriter.COMPUTE_FRAMES);
         WrapMethodClassVisitor wmcv = new WrapMethodClassVisitor(cw, context, log);
         classReader.accept(wmcv,8);
 
         //Write the output to a class file
-        File outputDir=new File("out/com/gitbub/chenhq/testasm");
+        File outputDir=new File("out/com/llmofang/hinge/testasm");
         outputDir.mkdirs();
         DataOutputStream dout=new DataOutputStream(new FileOutputStream(new File(outputDir,"MY_ClassModificationDemo.class")));
         dout.write(cw.toByteArray());

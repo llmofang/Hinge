@@ -1,4 +1,4 @@
-package com.llmofang.hinge.chenhq.agent.util;
+package com.llmofang.hinge.agent.util;
 
 import java.util.Map;
 
