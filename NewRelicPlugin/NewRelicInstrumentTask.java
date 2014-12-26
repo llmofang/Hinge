@@ -24,6 +24,7 @@ import org.gradle.api.internal.tasks.execution.TaskValidator;
 import org.gradle.api.plugins.ExtensionContainer;
 import org.gradle.api.specs.Spec;
 import org.gradle.api.tasks.*;
+import org.gradle.api.tasks.TaskAction;
 import org.gradle.internal.service.ServiceRegistry;
 import org.gradle.logging.StandardOutputCapture;
 
@@ -35,7 +36,7 @@ import com.google.common.io.BaseEncoding;
 public class NewRelicInstrumentTask extends NewRelicTask
 {
 
-
+    @TaskAction
     public Object newRelicInstrumentTask()
     {
         Object obj2;

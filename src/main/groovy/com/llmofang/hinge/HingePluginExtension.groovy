@@ -3,7 +3,7 @@ package com.llmofang.hinge
 /**
  * @author SNI
  */
-public class LogLifeCyclePluginExtension {
+public class HingePluginExtension {
    /** Enable to debug the lib's errors. */
    boolean debug;
 }
