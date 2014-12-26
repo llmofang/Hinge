@@ -16,8 +16,7 @@ import com.sun.tools.attach.AttachNotSupportedException;
 import com.sun.tools.attach.VirtualMachine;
 
 
-public class NewRelicTask extends DefaultTask
-implements GroovyObject {
+public class NewRelicTask extends DefaultTask {
 	Logger logger;
 	 public NewRelicTask()
 	    {
@@ -81,23 +80,5 @@ implements GroovyObject {
 		 vm.detach();
 	}
 
-	public MetaClass getMetaClass() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
-	public Object getProperty(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Object invokeMethod(String arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void setMetaClass(MetaClass arg0) {
-		// TODO Auto-generated method stub
-		
-	}
 }

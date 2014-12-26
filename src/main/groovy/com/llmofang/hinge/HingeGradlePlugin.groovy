@@ -6,7 +6,7 @@ import org.gradle.api.Project
 public abstract class HingeGradlePlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
-        final def logger = project.getLogger
+        final def logger = project.getLogger()
         logger.info("[llmofang] Hinge plugin loaded.")
 
         configure(project)
