@@ -1,0 +1,125 @@
+ package com.newrelic.agent.compile;
+
+ import com.newrelic.agent.android.instrumentation.ReplaceCallSite;
+ import com.newrelic.agent.android.instrumentation.TraceConstructor;
+ import com.newrelic.agent.android.instrumentation.WrapReturn;
+ import com.newrelic.agent.util.Annotations;
+ import com.newrelic.agent.util.MethodAnnotation;
+ import org.objectweb.asm.Type;
+ import com.newrelic.org.reflections.util.ClasspathHelper;
+ import java.io.FileOutputStream;
+ import java.io.PrintStream;
+ import java.util.Collection;
+ import java.util.HashMap;
+ import java.util.Map;
+ import java.util.Map.Entry;
+ import java.util.Properties;
+ import java.util.Set;
+
+ public class MapFileGenerator
+ {
+   public static void main(String[] args)
+   {
+     if (args.length != 1) {
+       System.err.println("Usage:   MapFileGenerator class_dir");
+       System.exit(1);
+     }
+     try {
+       Class.forName("com.newrelic.agent.android.Agent");
+     } catch (Exception ex) {
+       System.err.println("Unable to load agent classes");
+       System.exit(1);
+     }
+     Map remapperProperties = getRemapperProperties();
+     if (remapperProperties.size() == 0) {
+       System.err.println("No class mappings were found");
+       System.exit(1);
+     }
+     for (Map.Entry entry : remapperProperties.entrySet()) {
+       System.out.println((String)entry.getKey() + " = " + (String)entry.getValue());
+     }
+     Properties props = new Properties();
+     props.putAll(remapperProperties);
+     try {
+       FileOutputStream out = new FileOutputStream(args[0]);
+       props.store(out, "");
+       out.close();
+     } catch (Exception ex) {
+       ex.printStackTrace();
+       System.exit(1);
+     }
+   }
+
+   static Map<String, String> getRemapperProperties()
+   {
+     Map classMap = new HashMap();
+
+     Set urls = ClasspathHelper.forPackage("com.newrelic.agent", new ClassLoader[0]);
+
+     Collection wrapReturnAnnotations = Annotations.getMethodAnnotations(WrapReturn.class, "com/newrelic/agent", urls);
+     for (MethodAnnotation annotation : wrapReturnAnnotations) {
+       String originalClassName = (String)annotation.getAttributes().get("className");
+       String originalMethodName = (String)annotation.getAttributes().get("methodName");
+       String originalMethodDesc = (String)annotation.getAttributes().get("methodDesc");
+
+       String newClassName = annotation.getClassName();
+       String newMethodName = annotation.getMethodName();
+
+       classMap.put("WRAP_METHOD:" + originalClassName.replace('.', '/') + '.' + originalMethodName + originalMethodDesc, newClassName + '.' + newMethodName + annotation.getMethodDesc());
+     }
+
+     Collection callSiteAnnotations = Annotations.getMethodAnnotations(ReplaceCallSite.class, "com/newrelic/agent", urls);
+     for (MethodAnnotation annotation : callSiteAnnotations) {
+       Boolean isStatic = (Boolean)annotation.getAttributes().get("isStatic");
+       String scope = (String)annotation.getAttributes().get("scope");
+
+       if (isStatic == null) isStatic = new Boolean(false);
+
+       String originalMethodName = annotation.getMethodName();
+       String originalMethodDesc = annotation.getMethodDesc();
+
+       if (!isStatic.booleanValue()) {
+         Type[] argTypes = Type.getArgumentTypes(originalMethodDesc);
+         Type[] newArgTypes = new Type[argTypes.length - 1];
+         for (int i = 0; i < newArgTypes.length; i++) {
+           newArgTypes[i] = argTypes[(i + 1)];
+         }
+         Type returnType = Type.getReturnType(originalMethodDesc);
+         originalMethodDesc = Type.getMethodDescriptor(returnType, newArgTypes);
+       }
+
+       String newClassName = annotation.getClassName();
+       String newMethodName = annotation.getMethodName();
+
+       if (scope == null) {
+         classMap.put("REPLACE_CALL_SITE:" + originalMethodName + originalMethodDesc, newClassName + '.' + newMethodName + annotation.getMethodDesc());
+       }
+       else {
+         classMap.put("REPLACE_CALL_SITE:" + scope.replace('.', '/') + "." + originalMethodName + originalMethodDesc, newClassName + '.' + newMethodName + annotation.getMethodDesc());
+       }
+
+     }
+
+     Collection constructorAnnotations = Annotations.getMethodAnnotations(TraceConstructor.class, "com/newrelic/agent", urls);
+     for (MethodAnnotation annotation : constructorAnnotations)
+     {
+       int typeStart = annotation.getMethodDesc().indexOf(")L");
+       int typeEnd = annotation.getMethodDesc().lastIndexOf(";");
+       System.out.print("Start: " + typeStart + " end: " + typeEnd + " for " + annotation.getMethodDesc());
+       String originalClassName = annotation.getMethodDesc().substring(typeStart + 2, typeEnd);
+
+       String originalMethodDesc = annotation.getMethodDesc().substring(0, typeStart + 1) + "V";
+       String newClassName = annotation.getClassName();
+       String newMethodName = annotation.getMethodName();
+
+       classMap.put("REPLACE_CALL_SITE:" + originalClassName.replace('.', '/') + "." + "<init>" + originalMethodDesc, newClassName + '.' + newMethodName + annotation.getMethodDesc());
+     }
+
+     return classMap;
+   }
+ }
+
+/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
+ * Qualified Name:     com.newrelic.agent.compile.MapFileGenerator
+ * JD-Core Version:    0.6.2
+ */

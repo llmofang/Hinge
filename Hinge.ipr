@@ -48,6 +48,9 @@
       <module fileurl="file://$PROJECT_DIR$/Hinge.iml" filepath="$PROJECT_DIR$/Hinge.iml"/>
       <module fileurl="file://$PROJECT_DIR$/HingeGradle/HingeGradle.iml" filepath="$PROJECT_DIR$/HingeGradle/HingeGradle.iml"/>
       <module fileurl="file://$PROJECT_DIR$/HingeRewriter/HingeRewriter.iml" filepath="$PROJECT_DIR$/HingeRewriter/HingeRewriter.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM3_Jad/HingeRewriter_ASM3_Jad.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM3_Jad/HingeRewriter_ASM3_Jad.iml"/>
+      <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml"/>
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-type="JavaSDK" assert-jdk-15="true" project-jdk-name="1.7">
