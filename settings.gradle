@@ -1,2 +1,3 @@
 rootProject.name = 'Hinge'
+include 'HingeGradle', 'HingeRewriter'
 
