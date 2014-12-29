@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Hinge.iml" filepath="$PROJECT_DIR$/Hinge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HingeGradle/HingeGradle.iml" filepath="$PROJECT_DIR$/HingeGradle/HingeGradle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" />
+    </modules>
+  </component>
+</project>

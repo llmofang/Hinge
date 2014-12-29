@@ -3,10 +3,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/HingeRewriter/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/HingeRewriter_ASM3_Jdgui/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/HingeRewriter_ASM3_Jad/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/HingeRewriter_ASM3/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/HingeRewriter_ASM4/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/HingeGradle/src/main/groovy" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/.gradle" />
       <excludeFolder url="file://$MODULE_DIR$/build" />
     </content>

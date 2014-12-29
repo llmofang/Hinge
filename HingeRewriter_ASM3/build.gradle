@@ -6,6 +6,17 @@ apply plugin: 'maven'
 sourceCompatibility = 1.5
 version = '1.0'
 
+//sourceSets {
+//    main {
+//        java {
+//            srcDir 'src/main/java'
+//        }
+////        resources {
+////            srcDir 'src/main/resources'
+////        }
+//    }
+//}
+
 repositories {
     mavenCentral()
 }
