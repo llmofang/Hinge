@@ -87,8 +87,13 @@ public class RewriterAgent {
         return agentOptions;
     }
 
+    /**
+     * premain函数
+     * @param agentArgs
+     * @param instrumentation
+     */
     public static void premain(String agentArgs, Instrumentation instrumentation) {
-        agentArgs = agentArgs;
+        //agentArgs = agentArgs;
 
         Throwable argsError = null;
         try {
@@ -105,31 +110,37 @@ public class RewriterAgent {
         }
         log.debug("Bootstrapping New Relic Android class rewriter");
 
+
         String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
         int p = nameOfRunningVM.indexOf('@');
         String pid = nameOfRunningVM.substring(0, p);
         log.debug("Agent running in pid " + pid + " arguments: " + agentArgs);
         try {
             NewRelicClassTransformer classTransformer;
-            //NewRelicClassTransformer classTransformer;
+
             if (agentOptions.containsKey("deinstrument")) {
                 log.info("Deinstrumenting...");
+                //NoOpClassTransformer不执行任何操作的ClassTransformer
                 classTransformer = new NoOpClassTransformer();
             } else {
                 classTransformer = new DexClassTransformer(log);
                 createInvocationDispatcher(log);
             }
 
+            //注册classTransformer， 并设置canRetransform为true
             instrumentation.addTransformer(classTransformer, true);
 
             List classes = new ArrayList();
             for (Class clazz : instrumentation.getAllLoadedClasses()) {
-                if (classTransformer.modifies(clazz)) {
+                if (classTransformer.modifies(clazz)) { //总是返回false，为何？？？ TODO
                     classes.add(clazz);
                 }
             }
 
             if (!classes.isEmpty()) {
+                //TODO
+                // Retransformation will only be supported if
+                // the Can-Retransform-Classes manifest attribute is set to true in the agent JAR file
                 if (instrumentation.isRetransformClassesSupported()) {
                     log.debug("Retransform classes: " + classes);
                     instrumentation.retransformClasses((Class[]) classes.toArray(new Class[classes.size()]));
@@ -147,6 +158,17 @@ public class RewriterAgent {
         }
     }
 
+
+    /**
+     * 重新定义class
+     * @param instrumentation
+     * @param classTransformer
+     * @param klass
+     * @throws IOException
+     * @throws IllegalClassFormatException
+     * @throws ClassNotFoundException
+     * @throws UnmodifiableClassException
+     */
     private static void redefineClass(Instrumentation instrumentation, ClassFileTransformer classTransformer, Class<?> klass)
             throws IOException, IllegalClassFormatException, ClassNotFoundException, UnmodifiableClassException {
         String internalClassName = klass.getName().replace('.', '/');
@@ -529,6 +551,7 @@ public class RewriterAgent {
             return null;
         }
     }
+
 
     private static final class NoOpClassTransformer
             implements RewriterAgent.NewRelicClassTransformer {
