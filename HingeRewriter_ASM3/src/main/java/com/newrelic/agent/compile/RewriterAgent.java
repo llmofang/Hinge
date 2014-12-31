@@ -264,16 +264,22 @@ public class RewriterAgent {
 
     private static void createInvocationDispatcher(Log log)
             throws Exception {
+        //获取Logger字段treeLock
         Field field = INVOCATION_DISPATCHER_CLASS.getDeclaredField("treeLock");
+        //修改为允许外部访问
         field.setAccessible(true);
 
+
         Field modifiersField = Field.class.getDeclaredField("modifiers");
+        //修改Field的modifiers方法为允许外部访问
         modifiersField.setAccessible(true);
+        //修改获取Logger字段treeLock，删除final属性(FINAL=16）
         modifiersField.setInt(field, field.getModifiers() & 0xFFFFFFEF);
 
-        if ((field.get(null) instanceof InvocationDispatcher))
+        if ((field.get(null) instanceof InvocationDispatcher))  // 判断Logger类的静态变量treeLock是否是InvocationDispatcher的实例。
             log.info("Detected cached instrumentation.");
         else
+            // 设置Logger类的静态变量treeLock为InvocationDispatcher实例
             field.set(null, new InvocationDispatcher(log));
     }
 

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="010e30d2-c1bf-424b-9659-0a58dcdc2096" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java" afterPath="$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Hinge.iws" />
@@ -29,34 +30,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="RewriterAgent.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RewriterAgent.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-19.892857" vertical-offset="1423" max-vertical-offset="5625">
-              <caret line="336" column="32" selection-start-line="336" selection-start-column="32" selection-end-line="336" selection-end-column="32" />
+            <state vertical-scroll-proportion="0.7642276" vertical-offset="3610" max-vertical-offset="8655">
+              <caret line="280" column="12" selection-start-line="280" selection-start-column="12" selection-end-line="280" selection-end-column="12" />
               <folding>
+                <element signature="imports" expanded="true" />
                 <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="docComment;method#premain#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#premain#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="docComment;method#redefineClass#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#redefineClass#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#parseAgentArgs#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#createDexerMainClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#createEclipseBuildHelperClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#createAntTaskClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#createProcessBuilderClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#createMavenClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-                <element signature="method#getAgentJarPath#0;class#RewriterAgent#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InvocationHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="InvocationHandler.java" pinned="false" current-in-tab="false">
         <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/InvocationHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.35828024" vertical-offset="30" max-vertical-offset="1170">
-              <caret line="40" column="34" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="34" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1170">
+              <caret line="40" column="36" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -75,8 +66,8 @@
       <file leaf-file-name="AccessibleObject.java" pinned="false" current-in-tab="false">
         <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/AccessibleObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1065" max-vertical-offset="3750">
-              <caret line="100" column="7" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3750">
+              <caret line="119" column="6" selection-start-line="119" selection-start-column="6" selection-end-line="119" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -96,7 +87,7 @@
         <entry file="jar:///opt/jdk/src.zip!/java/util/logging/Logger.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0" vertical-offset="1891" max-vertical-offset="24435">
-              <caret line="173" column="13" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
+              <caret line="191" column="25" selection-start-line="191" selection-start-column="19" selection-end-line="191" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -125,12 +116,9 @@
       <file leaf-file-name="HashSet.java" pinned="false" current-in-tab="false">
         <entry file="jar:///opt/jdk/src.zip!/java/util/HashSet.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2251" max-vertical-offset="4155">
+            <state vertical-scroll-proportion="0.0" vertical-offset="2460" max-vertical-offset="4125">
               <caret line="199" column="19" selection-start-line="199" selection-start-column="19" selection-end-line="199" selection-end-column="19" />
-              <folding>
-                <element signature="e#7356#7357#0" expanded="true" />
-                <element signature="e#7397#7398#0" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -630,10 +618,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="65" />
-    <option name="y" value="24" />
-    <option name="width" value="1301" />
-    <option name="height" value="744" />
+    <option name="x" value="64" />
+    <option name="y" value="-4" />
+    <option name="width" value="1303" />
+    <option name="height" value="773" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -1066,7 +1054,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="24" width="1301" height="744" extended-state="6" />
+    <frame x="64" y="-4" width="1303" height="773" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1091,9 +1079,9 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.330781" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2494043" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.17917305" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2494043" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
     <layout-to-restore>
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1175,7 +1163,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="615">
           <caret line="33" column="9" selection-start-line="33" selection-start-column="9" selection-end-line="33" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1204,7 +1191,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="600">
           <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1233,7 +1219,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="615">
           <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1262,7 +1247,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="525">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1284,7 +1268,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="660">
           <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1306,7 +1289,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="555" max-vertical-offset="645">
           <caret line="37" column="9" selection-start-line="37" selection-start-column="9" selection-end-line="37" selection-end-column="9" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1391,7 +1373,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="233" max-vertical-offset="630">
           <caret line="4" column="37" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="37" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1399,7 +1380,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="15" max-vertical-offset="120">
           <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1407,7 +1387,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="22260">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1415,7 +1394,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="240">
           <caret line="5" column="44" selection-start-line="5" selection-start-column="44" selection-end-line="5" selection-end-column="44" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1423,7 +1401,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="600">
           <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1431,7 +1408,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="495">
           <caret line="7" column="6" selection-start-line="7" selection-start-column="6" selection-end-line="7" selection-end-column="6" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1446,7 +1422,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="615">
           <caret line="35" column="1" selection-start-line="35" selection-start-column="1" selection-end-line="35" selection-end-column="1" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1454,7 +1429,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="626">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1462,10 +1436,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2251" max-vertical-offset="4155">
           <caret line="199" column="19" selection-start-line="199" selection-start-column="19" selection-end-line="199" selection-end-column="19" />
-          <folding>
-            <element signature="e#7356#7357#0" expanded="true" />
-            <element signature="e#7397#7398#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1485,26 +1456,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="jar:///opt/jdk/src.zip!/java/util/logging/Logger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1891" max-vertical-offset="24435">
-          <caret line="173" column="13" selection-start-line="173" selection-start-column="13" selection-end-line="173" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar:///opt/jdk/src.zip!/java/lang/Class.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="27436" max-vertical-offset="46575">
           <caret line="1929" column="17" selection-start-line="1929" selection-start-column="17" selection-end-line="1929" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/AccessibleObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1065" max-vertical-offset="3750">
-          <caret line="100" column="7" selection-start-line="100" selection-start-column="7" selection-end-line="100" selection-end-column="7" />
           <folding />
         </state>
       </provider>
@@ -1517,32 +1472,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
+    <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/InvocationHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-19.892857" vertical-offset="1423" max-vertical-offset="5625">
-          <caret line="336" column="32" selection-start-line="336" selection-start-column="32" selection-end-line="336" selection-end-column="32" />
-          <folding>
-            <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="docComment;method#premain#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#premain#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="docComment;method#redefineClass#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#redefineClass#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#parseAgentArgs#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#createDexerMainClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#createEclipseBuildHelperClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#createAntTaskClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#createProcessBuilderClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#createMavenClassAdapter#0;class#RewriterAgent#0" expanded="false" />
-            <element signature="method#getAgentJarPath#0;class#RewriterAgent#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1170">
+          <caret line="40" column="36" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/InvocationHandler.java">
+    <entry file="jar:///opt/jdk/src.zip!/java/util/logging/Logger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35828024" vertical-offset="30" max-vertical-offset="1170">
-          <caret line="40" column="34" selection-start-line="40" selection-start-column="17" selection-end-line="40" selection-end-column="34" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1891" max-vertical-offset="24435">
+          <caret line="191" column="25" selection-start-line="191" selection-start-column="19" selection-end-line="191" selection-end-column="25" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/AccessibleObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3750">
+          <caret line="119" column="6" selection-start-line="119" selection-start-column="6" selection-end-line="119" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7642276" vertical-offset="3610" max-vertical-offset="8655">
+          <caret line="280" column="12" selection-start-line="280" selection-start-column="12" selection-end-line="280" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
