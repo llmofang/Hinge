@@ -1,9 +1,10 @@
 apply plugin: 'java'
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: 'maven'
 
-sourceCompatibility = 1.5
-version = '1.0'
+//sourceCompatibility = 1.5
+//version = '1.0'
 
 repositories {
     mavenCentral()
@@ -18,3 +19,15 @@ dependencies {
     compile files("$jdkHome/lib/tools.jar")
     //testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+group = 'com.llmofang.hinge.gradle'
+version = '1.0-SNAPSHOT'
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri('/home/cw/repo'))
+        }
+    }
+}
+
