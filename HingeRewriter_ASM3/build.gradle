@@ -35,6 +35,15 @@ dependencies {
     //testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
+jar {
+    manifest {
+        attributes 'Premain-Class': 'om.newrelic.agent.compile.RewriterAgent'
+        attributes 'Agent-Class': 'com.newrelic.agent.compile.RewriterAgent'
+        attributes 'Can-Retransform-Classes': 'true'
+        attributes 'Can-Redefine-Classes': 'true'
+    }
+}
+
 uploadArchives {
     repositories {
         mavenDeployer {

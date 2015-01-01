@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="010e30d2-c1bf-424b-9659-0a58dcdc2096" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/HingeGradle/src/main/resources/META-INF/gradle-plugins/com.llmofang.hinge.gradle.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeGradlePlugin.groovy" afterPath="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeGradlePlugin.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeGradle/build.gradle" afterPath="$PROJECT_DIR$/HingeGradle/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeTask.groovy" afterPath="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeTask.groovy" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle" afterPath="$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
@@ -36,8 +33,8 @@
       <file leaf-file-name="RewriterAgent.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="3750" max-vertical-offset="8655">
-              <caret line="281" column="37" selection-start-line="281" selection-start-column="37" selection-end-line="281" selection-end-column="37" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="618" max-vertical-offset="8655">
+              <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
@@ -76,24 +73,44 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="false">
+      <file leaf-file-name="build.gradle" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="325" max-vertical-offset="735">
-              <caret line="32" column="69" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
+            <state vertical-scroll-proportion="0.7804878" vertical-offset="325" max-vertical-offset="870">
+              <caret line="43" column="5" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HingeGradlePlugin.groovy" pinned="false" current-in-tab="true">
+      <file leaf-file-name="HingeGradlePlugin.groovy" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeGradlePlugin.groovy">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.597561" vertical-offset="70" max-vertical-offset="540">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="70" max-vertical-offset="540">
+              <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
               <folding>
                 <element signature="e#35#63#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HingeInstrumentTask.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeInstrumentTask.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HingeTask.groovy" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeTask.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="370" max-vertical-offset="780">
+              <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -103,36 +120,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-10.28" vertical-offset="2308" max-vertical-offset="3300">
               <caret line="212" column="11" selection-start-line="212" selection-start-column="11" selection-end-line="212" selection-end-column="11" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="InvocationHandler.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/InvocationHandler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="1170">
-              <caret line="40" column="36" selection-start-line="40" selection-start-column="36" selection-end-line="40" selection-end-column="36" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AccessibleObject.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///opt/jdk/src.zip!/java/lang/reflect/AccessibleObject.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3750">
-              <caret line="119" column="6" selection-start-line="119" selection-start-column="6" selection-end-line="119" selection-end-column="6" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Logger.java" pinned="false" current-in-tab="false">
-        <entry file="jar:///opt/jdk/src.zip!/java/util/logging/Logger.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="2370" max-vertical-offset="24405">
-              <caret line="191" column="25" selection-start-line="191" selection-start-column="19" selection-end-line="191" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -630,8 +617,10 @@
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/HingeGradle/src/main/resources/META-INF/gradle-plugins/com.llmofang.hinge.gradle.properties" />
         <option value="$PROJECT_DIR$/HingeGradle/build.gradle" />
-        <option value="$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle" />
         <option value="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeGradlePlugin.groovy" />
+        <option value="$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeTask.groovy" />
+        <option value="$PROJECT_DIR$/HingeRewriter_ASM3/src/main/resources/META-INF/MANIFEST.MF" />
+        <option value="$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle" />
       </list>
     </option>
   </component>
@@ -710,6 +699,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="HingeRewriter_ASM3" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hinge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hinge" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="HingeGradle" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -743,10 +754,6 @@
               <option name="myItemId" value="META-INF" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gradle-plugins" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -767,14 +774,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="groovy" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="gradle" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -798,6 +797,7 @@
     <property name="options.lastSelected" value="fileTemplates" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="LayoutCode.rearrangeEntriesGroovy" value="false" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -1156,27 +1156,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-2.1-all/27drb4udbjf4k88eh2ffdc0n55/gradle-2.1/lib/asm-all-5.0.3.jar!/org/objectweb/asm/commons/AdviceAdapter.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="6311" max-vertical-offset="10095">
-          <caret line="444" column="16" selection-start-line="444" selection-start-column="16" selection-end-line="444" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="210" max-vertical-offset="330">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="100">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/ClassAdapterBase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="75" max-vertical-offset="600">
@@ -1461,17 +1440,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="1020" max-vertical-offset="3750">
           <caret line="119" column="6" selection-start-line="119" selection-start-column="6" selection-end-line="119" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3750" max-vertical-offset="8655">
-          <caret line="281" column="37" selection-start-line="281" selection-start-column="37" selection-end-line="281" selection-end-column="37" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
+            <element signature="e#0#10119#0" expanded="false" />
+            <element signature="imports" expanded="false" />
+            <element signature="e#5520#5521#0" expanded="false" />
+            <element signature="e#5551#5552#0" expanded="false" />
+            <element signature="e#6886#6887#0" expanded="false" />
+            <element signature="e#6933#6934#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1500,14 +1475,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="325" max-vertical-offset="735">
-          <caret line="32" column="69" selection-start-line="32" selection-start-column="4" selection-end-line="32" selection-end-column="69" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-2.1-all/27drb4udbjf4k88eh2ffdc0n55/gradle-2.1/lib/gradle-core-2.1.jar!/org/gradle/api/Plugin.class">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.15584415" vertical-offset="0" max-vertical-offset="385">
@@ -1526,11 +1493,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeGradlePlugin.groovy">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.597561" vertical-offset="70" max-vertical-offset="540">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="70" max-vertical-offset="540">
+          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
           <folding>
             <element signature="e#35#63#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeInstrumentTask.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="8" column="18" selection-start-line="8" selection-start-column="18" selection-end-line="8" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/src/main/java/com/newrelic/agent/compile/RewriterAgent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="618" max-vertical-offset="8655">
+          <caret line="50" column="13" selection-start-line="50" selection-start-column="13" selection-end-line="50" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#agentmain#0;class#RewriterAgent#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HingeGradle/src/main/groovy/com/llmofang/hinge/gradle/HingeTask.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="370" max-vertical-offset="780">
+          <caret line="38" column="41" selection-start-line="38" selection-start-column="41" selection-end-line="38" selection-end-column="41" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HingeRewriter_ASM3/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7804878" vertical-offset="325" max-vertical-offset="870">
+          <caret line="43" column="5" selection-start-line="43" selection-start-column="5" selection-end-line="43" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>

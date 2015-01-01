@@ -46,8 +46,6 @@ class HingeTask extends  DefaultTask{
     }
 
     void injectAgent(String agentArgs){
-wd
-        com
          def vm=VirtualMachine.attach(this.getPid())
          vm.loadAgent(getJarFilePath(),agentArgs)
     }
