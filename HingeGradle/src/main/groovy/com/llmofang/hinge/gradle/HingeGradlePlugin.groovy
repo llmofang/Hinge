@@ -2,10 +2,12 @@ package com.llmofang.hinge.gradle
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.api.logging.Logger;
 
 public class HingeGradlePlugin implements Plugin<Project> {
+    static Logger logger;
     public void apply(Project project) {
-        final def logger = project.getLogger()
+        logger = project.getLogger()
         logger.info("[llmofang] Hinge plugin loaded.")
 
         project.configure(project) {
@@ -27,4 +29,9 @@ public class HingeGradlePlugin implements Plugin<Project> {
             }
         }
     }
+
+    public static Logger getLogger() {
+        return (Logger) logger;
+    }
+
 }

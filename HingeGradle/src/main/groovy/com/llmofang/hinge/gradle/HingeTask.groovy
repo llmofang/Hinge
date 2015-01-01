@@ -16,7 +16,7 @@ class HingeTask extends  DefaultTask{
     Logger logger
      HingeTask()
     {
-        logger=this.getLogger()
+        logger = HingeGradlePlugin.getLogger()
     }
 
     def getPid() {
