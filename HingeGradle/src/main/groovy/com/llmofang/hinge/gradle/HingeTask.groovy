@@ -28,10 +28,16 @@ class HingeTask extends  DefaultTask{
     def getJarFilePath(){
         //HingeGradle改成agent对象
         try {
-            def jarFilePath = RewriterAgent.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
-            jarFilePath = new File(jarFilePath).getCanonicalPath().toString()
-            logger.info("[llmofang] Found New Relic instrumentation within " + jarFilePath)
-            return jarFilePath
+            //def jarFilePath = RewriterAgent.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
+            def pretectionDomain = RewriterAgent.getProtectionDomain()
+            def codeSource = pretectionDomain.getCodeSource();
+            def location = codeSource.getLocation()
+            def jarPath = location.toURI().getPath()
+            //jarFilePath = new File(jarFilePath).getCanonicalPath().toString()
+            def jarFile = new File(jarPath)
+            def jarCanonicalPath = jarFile.getCanonicalPath().toString()
+            logger.info("[llmofang] Found New Relic instrumentation within " + jarCanonicalPath)
+            return jarCanonicalPath
         }
         catch(URISyntaxException e )
         {

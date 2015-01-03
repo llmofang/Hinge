@@ -2,7 +2,6 @@
 
  import com.llmofang.hinge.agent.compile.visitor.*;
  import com.llmofang.hinge.agent.util.Streams;
- import com.llmofang.hinge.agent.compile.visitor.*;
  import org.objectweb.asm.*;
  import org.objectweb.asm.commons.AdviceAdapter;
  import org.objectweb.asm.commons.GeneratorAdapter;
