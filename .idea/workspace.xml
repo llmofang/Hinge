@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="010e30d2-c1bf-424b-9659-0a58dcdc2096" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_google_guava_guava_18_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__commons_io_commons_io_1_3_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_apache_commons_commons_io_1_3_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_ow2_asm_asm_all_4_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/HingeGradle/build.gradle" afterPath="$PROJECT_DIR$/HingeGradle/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MOVED" beforePath="D:\work\hinge\Hinge\HingeGradle\src\main\resources\META-INF\gradle-plugins\com.llmofang.hinge.gradle.properties" afterPath="$PROJECT_DIR$/HingeGradle/src/main/resources/META-INF/gradle-plugins/Hinge.properties" />
-    </list>
+    <list default="true" id="010e30d2-c1bf-424b-9659-0a58dcdc2096" name="Default" comment="" />
     <ignored path="Hinge.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
