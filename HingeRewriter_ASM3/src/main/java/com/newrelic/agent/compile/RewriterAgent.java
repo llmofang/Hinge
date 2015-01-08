@@ -61,7 +61,7 @@ public class RewriterAgent {
     private static final Class INVOCATION_DISPATCHER_CLASS = Logger.class;
     private static final String SET_INSTRUMENTATION_DISABLED_FLAG = "SET_INSTRUMENTATION_DISABLED_FLAG";
     private static final String PRINT_TO_INFO_LOG = "PRINT_TO_INFO_LOG";
-    static final String DEXER_MAIN_CLASS_NAME = "com/android/dx/command/dexer/Main";
+    private static final String DEXER_MAIN_CLASS_NAME = "com/android/dx/command/dexer/Main";
     private static final String ANT_DEX_EXEC_TASK = "com/android/ant/DexExecTask";
     private static final String ECLIPSE_BUILD_HELPER = "com/android/ide/eclipse/adt/internal/build/BuildHelper";
     private static final String MAVEN_DEX_MOJO = "com/jayway/maven/plugins/android/phase08preparepackage/DexMojo";
@@ -446,6 +446,121 @@ public class RewriterAgent {
             this.context = new InstrumentationContext(this.config, log);
             this.agentJarPath = RewriterAgent.getAgentJarPath();
             this.invocationHandlers = Collections.unmodifiableMap(new HashMap() {
+                {
+                    //access$700 → getProxyInvocationKey
+                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler()
+                    {
+                        public Object invoke(Object proxy, Method method, Object[] args)
+                                throws Throwable
+                        {
+                            byte[] bytes = (byte[])args[1];
+
+                            //access$1100→isInstrumentationDisabled()
+                            if (RewriterAgent.InvocationDispatcher.isInstrumentationDisabled()) {
+                            if (isExcludedPackage(agentJarPath)) {
+                                new ClassData(bytes,false);
+                                log.info("Instrumentation disabled, no agent present");
+                            }
+                            return bytes;
+                        }
+                            //RewriterAgent.InvocationDispatcher.access$1202(RewriterAgent.InvocationDispatcher.1.this.this$0, true);→ new ClassData(bytes,false);
+                            new ClassData(bytes,true);
+                            //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
+                            synchronized (this.invoke(proxy,method,args)) {
+                                //RewriterAgent.InvocationDispatcher.access$1400→RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
+                            ClassData classData = RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
+
+                            if ((classData != null) && (classData.getMainClassBytes() != null) && (classData.isModified())) {
+                                return classData.getMainClassBytes();
+                            }
+                        }
+
+                            return bytes;
+                        }
+                    });
+                    put(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", "preDexLibraries"), new InvocationHandler()
+                    {
+                        public Object invoke(Object proxy, Method method, Object[] args)
+                                throws Throwable
+                        {
+                            List files = (List)args[0];
+                            for (File file : files) {
+                                //RewriterAgent.access$1500().contains(file.getName().toLowerCase())→RewriterAgent.getAgentOptions().containsKey
+                                if (RewriterAgent.getAgentOptions().containsKey(file.getName().toLowerCase())) {
+                                    log.info("Detected the New Relic Android agent in an Ant build (" + file.getPath() + ")");
+                                    return file;
+                                }
+                            }
+                            log.debug("Ant preDexLibraries: " + files);
+                            log.info("No New Relic agent detected in Ant build");
+                            return null;
+                        }
+                    });
+                    put("SET_INSTRUMENTATION_DISABLED_FLAG", new InvocationHandler()
+                    {
+                        public Object invoke(Object proxy, Method method, Object[] args)
+                                throws Throwable
+                        {
+                            RewriterAgent.InvocationDispatcher.access$1602(RewriterAgent.InvocationDispatcher.1.this.this$0, (args != null) && (args[0] == null));
+
+                            RewriterAgent.InvocationDispatcher.1.this.val$log.debug("DisableInstrumentation: " + RewriterAgent.InvocationDispatcher.access$1600(RewriterAgent.InvocationDispatcher.1.this.this$0) + " (" + args + ")");
+                            return null;
+                        }
+                    });
+                    put("PRINT_TO_INFO_LOG", new InvocationHandler()
+                    {
+                        public Object invoke(Object proxy, Method method, Object[] args)
+                                throws Throwable
+                        {
+                           log.info(args[0].toString());
+                            return null;
+                        }
+                    });
+                    put(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", "start"), new InvocationHandler()
+                    {
+                        public Object invoke(Object proxy, Method method, Object[] args)
+                                throws Throwable
+                        {
+                            List list = (List)args[0];
+
+                            String command = (String)list.get(0);
+
+                            File commandFile = new File(command);
+
+                            if (RewriterAgent.InvocationDispatcher.isInstrumentationDisabled()) {
+                            log.info("Instrumentation disabled, no agent present.  Command: " + commandFile.getName());
+                            log.debug("Execute: " + list.toString());
+                            return null;
+                        }
+
+                            String javaagentString = null;
+                            if (RewriterAgent.getAgentOptions().containsKey(commandFile.getName().toLowerCase()))
+                                //
+                                javaagentString = "-Jjavaagent:" + RewriterAgent.InvocationDispatcher.access$1800(RewriterAgent.InvocationDispatcher.1.this.this$0);
+                            else if (RewriterAgent.access$1900().contains(commandFile.getName().toLowerCase())) {
+                                javaagentString = "-javaagent:" + RewriterAgent.InvocationDispatcher.access$1800(RewriterAgent.InvocationDispatcher.1.this.this$0);
+                        }
+
+                            if (javaagentString != null) {
+                                //RewriterAgent.access$800()→RewriterAgent.getAgentJarPath()
+                                if (RewriterAgent.getAgentJarPath()!= null) {
+                                    javaagentString = javaagentString + "=" + RewriterAgent.getAgentJarPath();
+                                }
+                                list.add(1, quoteProperty(javaagentString));
+                            }
+
+                            log.debug("Execute: " + list.toString());
+                            return null;
+                        }
+
+                        private String quoteProperty(String string) {
+                            if (System.getProperty("os.name").toLowerCase().contains("win")) {
+                                return "\"" + string + "\"";
+                            }
+                            return string;
+                        }
+                    });
+                }
 
             });
         }
