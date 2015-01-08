@@ -17,6 +17,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.commons.AdviceAdapter;
 import org.objectweb.asm.commons.GeneratorAdapter;
+import org.objectweb.asm.commons.Method;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -80,7 +81,7 @@ public class RewriterAgent {
     }
 
     public static String getVersion() {
-        return "4.120.0";
+        return VERSION;
     }
 
     public static Map<String, String> getAgentOptions() {
@@ -206,11 +207,58 @@ public class RewriterAgent {
 
     private static ClassAdapter createDexerMainClassAdapter(ClassVisitor cw, Log log) {
         return new ClassAdapterBase(log, cw, new HashMap() {
+            {
+
+                put(new Method("processClass", "(Ljava/lang/String;[B)Z"), new MethodVisitorFactory()
+                {
+                    public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
+                    {
+                        return new RewriterAgent.BaseMethodVisitor(mv, access, name, desc)
+                        {
+                            protected void onMethodEnter() {
+                              //  RewriterAgent.this..debug("Found onMethodEnter in processClass");
+
+                                this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey(DEXER_MAIN_CLASS_NAME, this.methodName)).loadArgumentsArray(this.methodDesc).invokeDispatcher(false);
+                                checkCast(Type.getType(Byte[].class));
+                                storeArg(1);
+                            }
+                        };
+                    }
+                });
+            }
         });
     }
 
     private static ClassAdapter createEclipseBuildHelperClassAdapter(ClassVisitor cw, Log log) {
-        return new ClassAdapterBase(log, cw, new HashMap() {
+
+        return new ClassAdapterBase(log, cw,new HashMap<Method, MethodVisitorFactory>(){
+            {
+                put(new Method("executeDx", "(Lorg/eclipse/jdt/core/IJavaProject;Ljava/util/Collection;Ljava/lang/String;)V"), new MethodVisitorFactory()
+                {
+                    public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
+                    {
+                        return new RewriterAgent.SafeInstrumentationMethodVisitor(mv, access, name, desc)
+                        {
+                            protected void onMethodEnter()
+                            {
+                               // RewriterAgent.3.this.val$log.debug("Found onMethodEnter in executeDx");
+
+                                this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadArray(new Runnable[] { new Runnable()
+                                {
+                                    public void run()
+                                    {
+                                        loadArg(0);
+                                        visitLdcInsn("com.newrelic.agent.android.Agent");
+                                        invokeInterface(Type.getObjectType("org/eclipse/jdt/core/IJavaProject"), new Method("findType", "(Ljava/lang/String;)Lorg/eclipse/jdt/core/IType;"));
+                                    }
+                                }
+                                }).invokeDispatcher();
+                            }
+                        };
+                    }
+                });
+
+            }
         });
     }
 
@@ -523,6 +571,33 @@ public class RewriterAgent {
             this.log = log;
 
             this.classVisitors = new HashMap() {
+                {
+                    put(DEXER_MAIN_CLASS_NAME, new ClassVisitorFactory(true) {
+                        public ClassAdapter create(ClassVisitor cv) {
+                            return RewriterAgent.createDexerMainClassAdapter(cv,log);
+                        }
+                    });
+                    put(ANT_DEX_EXEC_TASK, new ClassVisitorFactory(false) {
+                        public ClassAdapter create(ClassVisitor cv) {
+                            return RewriterAgent.createAntTaskClassAdapter(cv, log);
+                        }
+                    });
+                    put(ECLIPSE_BUILD_HELPER, new ClassVisitorFactory(true) {
+                        public ClassAdapter create(ClassVisitor cv) {
+                            return RewriterAgent.createEclipseBuildHelperClassAdapter(cv, log);
+                        }
+                    });
+                    put(MAVEN_DEX_MOJO, new ClassVisitorFactory(true) {
+                        public ClassAdapter create(ClassVisitor cv) {
+                            return RewriterAgent.createMavenClassAdapter(cv,log,agentJarPath);
+                        }
+                    });
+                    put(PROCESS_BUILDER_CLASS_NAME, new ClassVisitorFactory(true) {
+                        public ClassAdapter create(ClassVisitor cv) {
+                            return RewriterAgent.createProcessBuilderClassAdapter(cv,log);
+                        }
+                    });
+                }
             };
         }
 
@@ -562,6 +637,13 @@ public class RewriterAgent {
     private static final class NoOpClassTransformer
             implements RewriterAgent.NewRelicClassTransformer {
         private static HashSet<String> classVisitors = new HashSet() {
+            {
+                add("com/android/dx/command/dexer/Main");
+                add("com/android/ant/DexExecTask");
+                add("com/android/ide/eclipse/adt/internal/build/BuildHelper");
+                add("com/jayway/maven/plugins/android/phase08preparepackage/DexMojo");
+                add("java/lang/ProcessBuilder");
+            }
         };
 
         public byte[] transform(ClassLoader classLoader, String s, Class<?> aClass, ProtectionDomain protectionDomain, byte[] bytes)
@@ -580,7 +662,3 @@ public class RewriterAgent {
     }
 }
 
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.RewriterAgent
- * JD-Core Version:    0.6.2
- */
