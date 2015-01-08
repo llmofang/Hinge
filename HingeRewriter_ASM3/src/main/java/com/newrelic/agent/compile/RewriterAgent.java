@@ -205,7 +205,8 @@ public class RewriterAgent {
         return options;
     }
 
-    private static ClassAdapter createDexerMainClassAdapter(ClassVisitor cw, Log log) {
+    private static ClassAdapter createDexerMainClassAdapter(ClassVisitor cw,final Log log) {
+
         return new ClassAdapterBase(log, cw, new HashMap() {
             {
 
@@ -216,7 +217,7 @@ public class RewriterAgent {
                         return new RewriterAgent.BaseMethodVisitor(mv, access, name, desc)
                         {
                             protected void onMethodEnter() {
-                              //  RewriterAgent.this..debug("Found onMethodEnter in processClass");
+                                log.debug("Found onMethodEnter in processClass");
 
                                 this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey(DEXER_MAIN_CLASS_NAME, this.methodName)).loadArgumentsArray(this.methodDesc).invokeDispatcher(false);
                                 checkCast(Type.getType(Byte[].class));
@@ -265,6 +266,58 @@ public class RewriterAgent {
     private static ClassAdapter createAntTaskClassAdapter(ClassVisitor cw, Log log) {
         String agentFileFieldName = "NewRelicAgentFile";
         Map methodVisitors = new HashMap() {
+            {
+                put(new Method("preDexLibraries", "(Ljava/util/List;)V"), new MethodVisitorFactory() {
+
+                            public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
+                            {
+                                return new BaseMethodVisitor(mv, access, name, desc) {
+
+                                    protected void onMethodEnter()
+                                    {
+                                        builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", methodName)).loadArray(new Runnable[] {
+                                                new Runnable() {
+
+                                                    public void run()
+                                                    {
+                                                        loadArg(0);
+                                                    }
+                                                }
+
+                                        }).invokeDispatcher(false);
+                                        loadThis();
+                                        swap();
+                                        putField(Type.getObjectType("com/android/ant/DexExecTask"), "NewRelicAgentFile", Type.getType(Object.class));
+                                    }
+                                };
+                            }
+                        }
+                );
+                put(new Method("runDx", "(Ljava/util/Collection;Ljava/lang/String;Z)V"), new MethodVisitorFactory() {
+
+                            public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
+                            {
+                                return new SafeInstrumentationMethodVisitor(mv, access, name, desc) {
+
+                                    protected void onMethodEnter()
+                                    {
+                                        builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadArray(new Runnable[] {
+                                                new Runnable() {
+
+                                                    public void run()
+                                                    {
+                                                        loadThis();
+                                                        getField(Type.getObjectType("com/android/ant/DexExecTask"), "NewRelicAgentFile", Type.getType(Object.class));
+                                                    }
+                                                }
+
+                                        }).invokeDispatcher();
+                                    }
+                                };
+                            }
+                        }
+                );
+            }
         };
         return new ClassAdapterBase(log, cw, methodVisitors) {
             public void visitEnd() {
@@ -299,8 +352,49 @@ public class RewriterAgent {
         };
     }
 
-    private static ClassAdapter createMavenClassAdapter(ClassVisitor cw, Log log, String agentJarPath) {
+    private static ClassAdapter createMavenClassAdapter(ClassVisitor cw, Log log,final String agentJarPath) {
         Map methodVisitors = new HashMap() {
+            {
+
+                put(new Method("runDex", "(Lcom/jayway/maven/plugins/android/CommandExecutor;Ljava/io/File;Ljava/util/Set;)V"), new MethodVisitorFactory()
+                {
+                    public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
+                    {
+                        return new GeneratorAdapter(mv, access, name, desc)
+                        {
+                            public void visitMethodInsn(int opcode, String owner, String name, String desc)
+                            {
+                                if (("executeCommand".equals(name)) && ("(Ljava/lang/String;Ljava/util/List;Ljava/io/File;Z)V".equals(desc)))
+                                {
+                                    int arg3 = newLocal(Type.BOOLEAN_TYPE);
+                                    storeLocal(arg3);
+                                    int arg2 = newLocal(Type.getType(File.class));
+                                    storeLocal(arg2);
+
+                                    dup();
+
+                                    push(0);
+
+                                    String agentCommand = "-javaagent:" + agentJarPath;
+                                    //RewriterAgent.access$800？？？猜是RewriterAgent.getVersion()
+                                    if (RewriterAgent.getVersion()!= null) {
+                                        agentCommand = agentCommand + "=" + RewriterAgent.getVersion();
+                                    }
+
+                                    new RewriterAgent.BytecodeBuilder(this).printToInfoLogFromBytecode("Maven agent jar: " + agentCommand);
+
+                                    visitLdcInsn(agentCommand);
+                                    invokeInterface(Type.getType(List.class), new Method("add", "(ILjava/lang/Object;)V"));
+
+                                    loadLocal(arg2);
+                                    loadLocal(arg3);
+                                }
+                                super.visitMethodInsn(opcode, owner, name, desc);
+                            }
+                        };
+                    }
+                });
+            }
         };
         return new ClassAdapterBase(log, cw, methodVisitors);
     }
@@ -339,7 +433,7 @@ public class RewriterAgent {
             implements InvocationHandler {
         private final Log log;
         private final ClassRemapperConfig config;
-        private final InstrumentationContext context;
+        private final  InstrumentationContext context;
         private final Map<String, InvocationHandler> invocationHandlers;
         private boolean writeDisabledMessage = true;
         private final String agentJarPath;
@@ -352,10 +446,11 @@ public class RewriterAgent {
             this.context = new InstrumentationContext(this.config, log);
             this.agentJarPath = RewriterAgent.getAgentJarPath();
             this.invocationHandlers = Collections.unmodifiableMap(new HashMap() {
+
             });
         }
 
-        private boolean isInstrumentationDisabled() {
+        private static boolean isInstrumentationDisabled() {
             return (this.disableInstrumentation) || (System.getProperty("newrelic.instrumentation.disabled") != null);
         }
 
@@ -384,13 +479,13 @@ public class RewriterAgent {
             return null;
         }
 
-        private ClassData visitClassBytes(byte[] bytes) {
+        private  ClassData visitClassBytes(byte[] bytes) {
             String className = "an unknown class";
             try {
                 ClassReader cr = new ClassReader(bytes);
                 ClassWriter cw = new ClassWriter(cr, 1);
 
-                this.context.reset();
+                context.reset();
 
                 cr.accept(new PrefilterClassVisitor(this.context, this.log), 7);
 
@@ -430,6 +525,10 @@ public class RewriterAgent {
             return new ClassData(bytes, false);
         }
     }
+
+
+
+
 
     private static abstract class BaseMethodVisitor extends AdviceAdapter {
         protected final String methodName;
