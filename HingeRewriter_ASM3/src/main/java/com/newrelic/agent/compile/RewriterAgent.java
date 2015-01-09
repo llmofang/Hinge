@@ -133,7 +133,9 @@ public class RewriterAgent {
 
             List classes = new ArrayList();
             for (Class clazz : instrumentation.getAllLoadedClasses()) {
-                if (classTransformer.modifies(clazz)) { //总是返回false，为何？？？ TODO
+                //如果class为 "com/android/dx/command/dexer/Main"||"com/android/ant/DexExecTask"||"com/android/ide/eclipse/adt/internal/build/BuildHelper"
+                //"com/jayway/maven/plugins/android/phase08preparepackage/DexMojo"||"java/lang/ProcessBuilder" 则返回为true
+                if (classTransformer.modifies(clazz)) {
                     classes.add(clazz);
                 }
             }
@@ -172,6 +174,7 @@ public class RewriterAgent {
      */
     private static void redefineClass(Instrumentation instrumentation, ClassFileTransformer classTransformer, Class<?> klass)
             throws IOException, IllegalClassFormatException, ClassNotFoundException, UnmodifiableClassException {
+        //processBuilder.class
         String internalClassName = klass.getName().replace('.', '/');
         String classPath = internalClassName + ".class";
 
@@ -181,7 +184,6 @@ public class RewriterAgent {
         Streams.copy(stream, output);
 
         stream.close();
-
         byte[] newBytes = classTransformer.transform(klass.getClassLoader(), internalClassName, klass, null, output.toByteArray());
 
         ClassDefinition def = new ClassDefinition(klass, newBytes);
@@ -817,6 +819,9 @@ public class RewriterAgent {
 
         public boolean modifies(Class<?> clazz) {
             Type t = Type.getType(clazz);
+            //返回classVisitors中是否含有包含这个类内部名为key的数据
+            //是否包含 "com/android/dx/command/dexer/Main"||"com/android/ant/DexExecTask"||"com/android/ide/eclipse/adt/internal/build/BuildHelper"
+            //"com/jayway/maven/plugins/android/phase08preparepackage/DexMojo"||"java/lang/ProcessBuilder"
             return this.classVisitors.containsKey(t.getInternalName());
         }
 
