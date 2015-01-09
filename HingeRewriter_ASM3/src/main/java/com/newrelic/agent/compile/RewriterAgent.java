@@ -154,6 +154,7 @@ public class RewriterAgent {
             }
 
             if (!agentOptions.containsKey("deinstrument"))
+                //???error
                 redefineClass(instrumentation, classTransformer, ProcessBuilder.class);
         } catch (Throwable ex) {
             log.error("Agent startup error", ex);
@@ -232,7 +233,7 @@ public class RewriterAgent {
         });
     }
 
-    private static ClassAdapter createEclipseBuildHelperClassAdapter(ClassVisitor cw, Log log) {
+    private static ClassAdapter createEclipseBuildHelperClassAdapter(ClassVisitor cw,final Log log) {
 
         return new ClassAdapterBase(log, cw,new HashMap<Method, MethodVisitorFactory>(){
             {
@@ -244,7 +245,7 @@ public class RewriterAgent {
                         {
                             protected void onMethodEnter()
                             {
-                               // RewriterAgent.3.this.val$log.debug("Found onMethodEnter in executeDx");
+                               log.debug("Found onMethodEnter in executeDx");
 
                                 this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadArray(new Runnable[] { new Runnable()
                                 {
@@ -409,6 +410,8 @@ public class RewriterAgent {
     private static void createInvocationDispatcher(Log log)
             throws Exception {
         //获取Logger字段treeLock
+        ///The fields relating to parent-child relationships and levels
+        // are managed under a separate lock, the treeLock.
         Field field = INVOCATION_DISPATCHER_CLASS.getDeclaredField("treeLock");
         //修改为允许外部访问
         field.setAccessible(true);
@@ -460,12 +463,14 @@ public class RewriterAgent {
                             //access$1100→isInstrumentationDisabled()
                             if (RewriterAgent.InvocationDispatcher.isInstrumentationDisabled()) {
                             if (isExcludedPackage(agentJarPath)) {
+                                //??
                                 new ClassData(bytes,false);
                                 log.info("Instrumentation disabled, no agent present");
                             }
                             return bytes;
                         }
                             //RewriterAgent.InvocationDispatcher.access$1202(RewriterAgent.InvocationDispatcher.1.this.this$0, true);→ new ClassData(bytes,false);
+                            //??
                             new ClassData(bytes,true);
                             //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
                             synchronized (this.invoke(proxy,method,args)) {
