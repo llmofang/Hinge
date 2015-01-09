@@ -453,38 +453,72 @@ public class RewriterAgent {
             this.invocationHandlers = Collections.unmodifiableMap(new HashMap() {
                 {
                     //access$700 → getProxyInvocationKey
-                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler()
-                    {
+                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
                         public Object invoke(Object proxy, Method method, Object[] args)
-                                throws Throwable
-                        {
-                            byte[] bytes = (byte[])args[1];
+                                throws Throwable {
+                            byte[] bytes = (byte[]) args[1];
 
                             //access$1100→isInstrumentationDisabled()
-                            if (RewriterAgent.InvocationDispatcher.isInstrumentationDisabled()) {
-                            if (isExcludedPackage(agentJarPath)) {
-                                //??
-                                new ClassData(bytes,false);
-                                log.info("Instrumentation disabled, no agent present");
+                            //invokestatic com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher.access$1100(com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher) : boolean [39]
+                            if (isInstrumentationDisabled()) {
+                                // invokestatic com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher.access$1200(com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher) : boolean [42]
+                                if (writeDisabledMessage) {
+                                    // invokestatic com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher.access$1202(com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher, boolean) : boolean [46]
+                                    //new ClassData(bytes, false);
+                                    writeDisabledMessage = false;
+                                    log.info("Instrumentation disabled, no agent present");
+                                }
+                                return bytes;
                             }
-                            return bytes;
-                        }
                             //RewriterAgent.InvocationDispatcher.access$1202(RewriterAgent.InvocationDispatcher.1.this.this$0, true);→ new ClassData(bytes,false);
-                            //??
-                            new ClassData(bytes,true);
+                            //new ClassData(bytes, true);
+                            writeDisabledMessage = true;
                             //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
-                            synchronized (this.invoke(proxy,method,args)) {
+                            synchronized context {
                                 //RewriterAgent.InvocationDispatcher.access$1400→RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
-                            ClassData classData = RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
+                                //ClassData classData = InvocationDispatcher.visitClassBytes(bytes);
+                                ClassData classData = visitClassBytes(bytes);
 
-                            if ((classData != null) && (classData.getMainClassBytes() != null) && (classData.isModified())) {
-                                return classData.getMainClassBytes();
+                                if ((classData != null) && (classData.getMainClassBytes() != null) && (classData.isModified())) {
+                                    return classData.getMainClassBytes();
+                                }
                             }
-                        }
 
                             return bytes;
                         }
                     });
+                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
+                                public Object invoke(Object proxy, Method method, Object[] args)
+                                        throws Throwable {
+                                    byte[] bytes = (byte[]) args[1];
+
+                                    //access$1100→isInstrumentationDisabled()
+                                    //invokestatic com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher.access$1100(com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher) : boolean [39]
+                                    if (InvocationDispatcher.isInstrumentationDisabled()) {
+                                        if (isExcludedPackage(agentJarPath)) {
+                                            //??
+                                            new ClassData(bytes, false);
+                                            log.info("Instrumentation disabled, no agent present");
+                                        }
+                                        return bytes;
+                                    }
+                                    //RewriterAgent.InvocationDispatcher.access$1202(RewriterAgent.InvocationDispatcher.1.this.this$0, true);→ new ClassData(bytes,false);
+                                    //??
+                                    new ClassData(bytes, true);
+                                    //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
+                                    synchronized (this.invoke(proxy, method, args)) {
+                                        //RewriterAgent.InvocationDispatcher.access$1400→RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
+                                        ClassData classData = InvocationDispatcher.visitClassBytes(bytes);
+
+                                        if ((classData != null) && (classData.getMainClassBytes() != null) && (classData.isModified())) {
+                                            return classData.getMainClassBytes();
+                                        }
+                                    }
+
+                                    return bytes;
+                                }
+                            }
+                    );
                     put(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", "preDexLibraries"), new InvocationHandler()
                     {
                         public Object invoke(Object proxy, Method method, Object[] args)
