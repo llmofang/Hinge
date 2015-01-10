@@ -9,6 +9,7 @@ import org.gradle.api.tasks.TaskAction
 class HingeInstrumentTask extends HingeTask{
     @TaskAction
     def hingInstrumentTask(){
+        //extraArgs=null??
         def extraArgs=System.getProperty('Hinge.AgentArgs')
         def encodedProjectRoot=BaseEncoding.base64().encode(this.getProject().getProjectDir().getCanonicalPath().getBytes())
         def agentArgs="projectRoot="+encodedProjectRoot

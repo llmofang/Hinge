@@ -16,8 +16,3 @@ abstract class ClassVisitorFactory {
 
     abstract ClassAdapter create(ClassVisitor paramClassVisitor);
 }
-
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.ClassVisitorFactory
- * JD-Core Version:    0.6.2
- */
