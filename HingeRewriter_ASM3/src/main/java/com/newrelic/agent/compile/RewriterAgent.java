@@ -76,7 +76,7 @@ public class RewriterAgent {
     private static final HashSet<String> EXCLUDED_PACKAGES = new HashSet() {
     };
 
-    public static void agentmain(String agentArgs, Instrumentation instrumentation) {
+    public  void agentmain(String agentArgs, Instrumentation instrumentation) {
         premain(agentArgs, instrumentation);
     }
 
@@ -93,7 +93,7 @@ public class RewriterAgent {
      * @param agentArgs
      * @param instrumentation
      */
-    public static void premain(String agentArgs, Instrumentation instrumentation) {
+    public  void premain(String agentArgs, Instrumentation instrumentation) {
         //agentArgs = agentArgs;
 
         Throwable argsError = null;
@@ -125,7 +125,7 @@ public class RewriterAgent {
                 classTransformer = new NoOpClassTransformer();
             } else {
                 classTransformer = new DexClassTransformer(log);
-                createInvocationDispatcher(log);
+                this.createInvocationDispatcher(log);
             }
 
             //注册classTransformer， 并设置canRetransform为true
@@ -407,7 +407,7 @@ public class RewriterAgent {
         return new File(RewriterAgent.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
     }
 
-    private static void createInvocationDispatcher(Log log)
+    private  void createInvocationDispatcher(Log log)
             throws Exception {
         //获取Logger字段treeLock
         ///The fields relating to parent-child relationships and levels
@@ -434,15 +434,15 @@ public class RewriterAgent {
         return className + "." + methodName;
     }
 
-    private static class InvocationDispatcher
+    private  class InvocationDispatcher
             implements InvocationHandler {
         private final Log log;
         private final ClassRemapperConfig config;
         private final  InstrumentationContext context;
         private final Map<String, InvocationHandler> invocationHandlers;
         private boolean writeDisabledMessage = true;
-        private final String agentJarPath;
-        private boolean disableInstrumentation = false;
+        private  final String agentJarPath;
+        private  boolean disableInstrumentation = false;
 
         public InvocationDispatcher(final Log log)
                 throws FileNotFoundException, IOException, ClassNotFoundException, URISyntaxException {
@@ -454,8 +454,8 @@ public class RewriterAgent {
                 {
                     //access$700 → getProxyInvocationKey
                     put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
-                        public Object invoke(Object proxy, Method method, Object[] args)
-                                throws Throwable {
+                        @Override
+                        public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
                             byte[] bytes = (byte[]) args[1];
 
                             //access$1100→isInstrumentationDisabled()
@@ -474,7 +474,7 @@ public class RewriterAgent {
                             //new ClassData(bytes, true);
                             writeDisabledMessage = true;
                             //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
-                            synchronized context {
+                            synchronized (context ){
                                 //RewriterAgent.InvocationDispatcher.access$1400→RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
                                 //ClassData classData = InvocationDispatcher.visitClassBytes(bytes);
                                 ClassData classData = visitClassBytes(bytes);
@@ -486,48 +486,17 @@ public class RewriterAgent {
 
                             return bytes;
                         }
+
                     });
-                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
-                                public Object invoke(Object proxy, Method method, Object[] args)
-                                        throws Throwable {
-                                    byte[] bytes = (byte[]) args[1];
 
-                                    //access$1100→isInstrumentationDisabled()
-                                    //invokestatic com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher.access$1100(com.newrelic.agent.compile.RewriterAgent$InvocationDispatcher) : boolean [39]
-                                    if (InvocationDispatcher.isInstrumentationDisabled()) {
-                                        if (isExcludedPackage(agentJarPath)) {
-                                            //??
-                                            new ClassData(bytes, false);
-                                            log.info("Instrumentation disabled, no agent present");
-                                        }
-                                        return bytes;
-                                    }
-                                    //RewriterAgent.InvocationDispatcher.access$1202(RewriterAgent.InvocationDispatcher.1.this.this$0, true);→ new ClassData(bytes,false);
-                                    //??
-                                    new ClassData(bytes, true);
-                                    //RewriterAgent.InvocationDispatcher.access$1300→(this.invoke(proxy,method,args)
-                                    synchronized (this.invoke(proxy, method, args)) {
-                                        //RewriterAgent.InvocationDispatcher.access$1400→RewriterAgent.InvocationDispatcher.visitClassBytes(bytes);
-                                        ClassData classData = InvocationDispatcher.visitClassBytes(bytes);
-
-                                        if ((classData != null) && (classData.getMainClassBytes() != null) && (classData.isModified())) {
-                                            return classData.getMainClassBytes();
-                                        }
-                                    }
-
-                                    return bytes;
-                                }
-                            }
-                    );
                     put(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", "preDexLibraries"), new InvocationHandler()
                     {
-                        public Object invoke(Object proxy, Method method, Object[] args)
+                        public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
                         {
-                            List files = (List)args[0];
+                            List<File> files = (List)args[0];
                             for (File file : files) {
-                                //RewriterAgent.access$1500().contains(file.getName().toLowerCase())→RewriterAgent.getAgentOptions().containsKey
-                                if (RewriterAgent.getAgentOptions().containsKey(file.getName().toLowerCase())) {
+                                if (RewriterAgent.AGENT_JAR_NAMES.contains(file.getName().toLowerCase())) {
                                     log.info("Detected the New Relic Android agent in an Ant build (" + file.getPath() + ")");
                                     return file;
                                 }
@@ -539,18 +508,18 @@ public class RewriterAgent {
                     });
                     put("SET_INSTRUMENTATION_DISABLED_FLAG", new InvocationHandler()
                     {
-                        public Object invoke(Object proxy, Method method, Object[] args)
+                        public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
                         {
-                            RewriterAgent.InvocationDispatcher.access$1602(RewriterAgent.InvocationDispatcher.1.this.this$0, (args != null) && (args[0] == null));
+                            disableInstrumentation= ((args != null) && (args[0] == null));
 
-                            RewriterAgent.InvocationDispatcher.1.this.val$log.debug("DisableInstrumentation: " + RewriterAgent.InvocationDispatcher.access$1600(RewriterAgent.InvocationDispatcher.1.this.this$0) + " (" + args + ")");
+                            log.debug("DisableInstrumentation: " + disableInstrumentation + " (" + args + ")");
                             return null;
                         }
                     });
                     put("PRINT_TO_INFO_LOG", new InvocationHandler()
                     {
-                        public Object invoke(Object proxy, Method method, Object[] args)
+                        public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
                         {
                            log.info(args[0].toString());
@@ -559,7 +528,7 @@ public class RewriterAgent {
                     });
                     put(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", "start"), new InvocationHandler()
                     {
-                        public Object invoke(Object proxy, Method method, Object[] args)
+                        public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
                         {
                             List list = (List)args[0];
@@ -568,7 +537,7 @@ public class RewriterAgent {
 
                             File commandFile = new File(command);
 
-                            if (RewriterAgent.InvocationDispatcher.isInstrumentationDisabled()) {
+                            if (isInstrumentationDisabled()) {
                             log.info("Instrumentation disabled, no agent present.  Command: " + commandFile.getName());
                             log.debug("Execute: " + list.toString());
                             return null;
@@ -577,14 +546,14 @@ public class RewriterAgent {
                             String javaagentString = null;
                             if (RewriterAgent.getAgentOptions().containsKey(commandFile.getName().toLowerCase()))
                                 //
-                                javaagentString = "-Jjavaagent:" + RewriterAgent.InvocationDispatcher.access$1800(RewriterAgent.InvocationDispatcher.1.this.this$0);
-                            else if (RewriterAgent.access$1900().contains(commandFile.getName().toLowerCase())) {
-                                javaagentString = "-javaagent:" + RewriterAgent.InvocationDispatcher.access$1800(RewriterAgent.InvocationDispatcher.1.this.this$0);
+                                javaagentString = "-Jjavaagent:" + agentJarPath;
+                            else if (RewriterAgent.JAVA_NAMES.contains(commandFile.getName().toLowerCase())) {
+                                javaagentString = "-javaagent:" + agentJarPath;
                         }
 
                             if (javaagentString != null) {
-                                //RewriterAgent.access$800()→RewriterAgent.getAgentJarPath()
-                                if (RewriterAgent.getAgentJarPath()!= null) {
+                                //RewriterAgent.access$800()→RewriterAgent.agentArgs
+                                if (RewriterAgent.agentArgs!= null) {
                                     javaagentString = javaagentString + "=" + RewriterAgent.getAgentJarPath();
                                 }
                                 list.add(1, quoteProperty(javaagentString));
@@ -606,7 +575,7 @@ public class RewriterAgent {
             });
         }
 
-        private static boolean isInstrumentationDisabled() {
+        private  boolean isInstrumentationDisabled() {
             return (this.disableInstrumentation) || (System.getProperty("newrelic.instrumentation.disabled") != null);
         }
 
@@ -641,7 +610,7 @@ public class RewriterAgent {
                 ClassReader cr = new ClassReader(bytes);
                 ClassWriter cw = new ClassWriter(cr, 1);
 
-                context.reset();
+                this.context.reset();
 
                 cr.accept(new PrefilterClassVisitor(this.context, this.log), 7);
 
