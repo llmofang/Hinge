@@ -76,7 +76,7 @@ public class RewriterAgent {
     private static final HashSet<String> EXCLUDED_PACKAGES = new HashSet() {
     };
 
-    public  void agentmain(String agentArgs, Instrumentation instrumentation) {
+    public static void agentmain(String agentArgs, Instrumentation instrumentation) {
         premain(agentArgs, instrumentation);
     }
 
@@ -93,7 +93,7 @@ public class RewriterAgent {
      * @param agentArgs
      * @param instrumentation
      */
-    public  void premain(String agentArgs, Instrumentation instrumentation) {
+    public static void premain(String agentArgs, Instrumentation instrumentation) {
         //agentArgs = agentArgs;
 
         Throwable argsError = null;
@@ -125,13 +125,15 @@ public class RewriterAgent {
                 classTransformer = new NoOpClassTransformer();
             } else {
                 classTransformer = new DexClassTransformer(log);
-                this.createInvocationDispatcher(log);
+                createInvocationDispatcher(log);
             }
 
             //注册classTransformer， 并设置canRetransform为true
             instrumentation.addTransformer(classTransformer, true);
 
             List classes = new ArrayList();
+            Class[] classes1=instrumentation.getAllLoadedClasses();
+
             for (Class clazz : instrumentation.getAllLoadedClasses()) {
                 //如果class为 "com/android/dx/command/dexer/Main"||"com/android/ant/DexExecTask"||"com/android/ide/eclipse/adt/internal/build/BuildHelper"
                 //"com/jayway/maven/plugins/android/phase08preparepackage/DexMojo"||"java/lang/ProcessBuilder" 则返回为true
@@ -407,7 +409,7 @@ public class RewriterAgent {
         return new File(RewriterAgent.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()).getAbsolutePath();
     }
 
-    private  void createInvocationDispatcher(Log log)
+    private static void createInvocationDispatcher(Log log)
             throws Exception {
         //获取Logger字段treeLock
         ///The fields relating to parent-child relationships and levels
@@ -434,7 +436,7 @@ public class RewriterAgent {
         return className + "." + methodName;
     }
 
-    private  class InvocationDispatcher
+    private static  class InvocationDispatcher
             implements InvocationHandler {
         private final Log log;
         private final ClassRemapperConfig config;
