@@ -2,12 +2,12 @@ package com.newrelic.agent.compile.visitor;
 
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Attribute;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.AnnotationVisitor;
+import  com.llmofang.objectweb.asm.Attribute;
+import  com.llmofang.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.FieldVisitor;
+import  com.llmofang.objectweb.asm.Label;
+import  com.llmofang.objectweb.asm.MethodVisitor;
 
 import java.text.MessageFormat;
 

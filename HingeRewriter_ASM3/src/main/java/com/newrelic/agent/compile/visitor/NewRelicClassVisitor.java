@@ -5,11 +5,11 @@ import com.newrelic.agent.compile.HaltBuildException;
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
 import com.newrelic.agent.compile.RewriterAgent;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.GeneratorAdapter;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.FieldVisitor;
+import  com.llmofang.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.commons.GeneratorAdapter;
 
 import java.util.UUID;
 

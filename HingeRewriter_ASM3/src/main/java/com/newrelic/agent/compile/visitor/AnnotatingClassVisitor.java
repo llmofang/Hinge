@@ -2,8 +2,8 @@ package com.newrelic.agent.compile.visitor;
 
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
 
 import java.text.MessageFormat;
 

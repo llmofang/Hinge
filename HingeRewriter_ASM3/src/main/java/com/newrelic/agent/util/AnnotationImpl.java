@@ -1,6 +1,6 @@
 package com.newrelic.agent.util;
 
-import org.objectweb.asm.AnnotationVisitor;
+import  com.llmofang.objectweb.asm.AnnotationVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;

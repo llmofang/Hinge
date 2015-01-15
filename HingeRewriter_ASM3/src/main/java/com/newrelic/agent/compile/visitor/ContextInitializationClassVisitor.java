@@ -1,8 +1,8 @@
 package com.newrelic.agent.compile.visitor;
 
 import com.newrelic.agent.compile.InstrumentationContext;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
 
 public class ContextInitializationClassVisitor extends ClassAdapter {
     private final InstrumentationContext context;

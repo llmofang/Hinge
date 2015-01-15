@@ -5,9 +5,9 @@ import com.newrelic.agent.compile.visitor.ContextInitializationClassVisitor;
 import com.newrelic.agent.compile.visitor.PrefilterClassVisitor;
 import com.newrelic.agent.compile.visitor.WrapMethodClassVisitor;
 import com.newrelic.agent.util.Streams;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
+import  com.llmofang.objectweb.asm.ClassReader;
+import  com.llmofang.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.ClassWriter;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;

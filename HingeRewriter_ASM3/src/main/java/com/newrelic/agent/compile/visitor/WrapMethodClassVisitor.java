@@ -3,12 +3,12 @@ package com.newrelic.agent.compile.visitor;
 import com.newrelic.agent.compile.ClassMethod;
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.Label;
+import  com.llmofang.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.commons.GeneratorAdapter;
+import  com.llmofang.objectweb.asm.commons.Method;
 
 import java.text.MessageFormat;
 import java.util.Collection;

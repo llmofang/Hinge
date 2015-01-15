@@ -3,10 +3,10 @@ package com.newrelic.agent.compile.visitor;
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
 import com.google.common.collect.ImmutableMap;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.Type;
 
 public class AsyncTaskClassVisitor extends ClassAdapter {
     public static final String TARGET_CLASS = "android/os/AsyncTask";

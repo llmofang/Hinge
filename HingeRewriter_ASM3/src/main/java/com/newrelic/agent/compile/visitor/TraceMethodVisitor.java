@@ -2,11 +2,11 @@ package com.newrelic.agent.compile.visitor;
 
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.AdviceAdapter;
-import org.objectweb.asm.commons.Method;
+import  com.llmofang.objectweb.asm.Label;
+import  com.llmofang.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.Type;
+import  com.llmofang.objectweb.asm.commons.AdviceAdapter;
+import  com.llmofang.objectweb.asm.commons.Method;
 
 import java.util.ArrayList;
 import java.util.Iterator;

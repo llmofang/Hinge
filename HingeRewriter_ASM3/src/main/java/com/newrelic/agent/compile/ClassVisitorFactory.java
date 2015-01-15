@@ -1,7 +1,7 @@
 package com.newrelic.agent.compile;
 
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassVisitor;
+import  com.llmofang.objectweb.asm.ClassAdapter;
+import  com.llmofang.objectweb.asm.ClassVisitor;
 
 abstract class ClassVisitorFactory {
     private final boolean retransformOkay;

@@ -1,6 +1,6 @@
 package com.newrelic.agent.compile;
 
-import org.objectweb.asm.commons.Method;
+import  com.llmofang.objectweb.asm.commons.Method;
 
 public final class ClassMethod {
     private final String className;

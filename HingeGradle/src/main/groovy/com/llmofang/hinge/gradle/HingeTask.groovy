@@ -3,10 +3,8 @@ package com.llmofang.hinge.gradle
 import com.sun.tools.attach.VirtualMachine
 import org.gradle.api.DefaultTask
 import org.gradle.api.logging.Logger
-//import com.llmofang.hinge.agent.compile.RewriterAgent
 import com.newrelic.agent.compile.RewriterAgent
 import java.lang.management.ManagementFactory
-import java.io.File
 
 
 /**

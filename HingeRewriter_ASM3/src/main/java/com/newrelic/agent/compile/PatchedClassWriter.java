@@ -1,6 +1,6 @@
 package com.newrelic.agent.compile;
 
-import org.objectweb.asm.ClassWriter;
+import com.llmofang.objectweb.asm.ClassWriter;
 
 class PatchedClassWriter extends ClassWriter {
     private final ClassLoader classLoader;

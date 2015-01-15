@@ -1,6 +1,6 @@
 package com.newrelic.agent.compile;
 
-import org.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.MethodVisitor;
 
 abstract interface MethodVisitorFactory {
     public abstract MethodVisitor create(MethodVisitor paramMethodVisitor, int paramInt, String paramString1, String paramString2);

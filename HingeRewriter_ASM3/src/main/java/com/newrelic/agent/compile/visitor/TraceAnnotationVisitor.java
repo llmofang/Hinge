@@ -3,7 +3,7 @@ package com.newrelic.agent.compile.visitor;
 import com.newrelic.agent.compile.InstrumentationContext;
 import com.newrelic.agent.compile.Log;
 import com.newrelic.agent.util.AnnotationImpl;
-import org.objectweb.asm.Type;
+import  com.llmofang.objectweb.asm.Type;
 
 public class TraceAnnotationVisitor extends AnnotationImpl {
     final Log log;

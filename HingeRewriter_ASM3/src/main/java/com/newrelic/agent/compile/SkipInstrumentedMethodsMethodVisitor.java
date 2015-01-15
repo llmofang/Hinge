@@ -1,9 +1,9 @@
 package com.newrelic.agent.compile;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.MethodAdapter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
+import com.llmofang.objectweb.asm.AnnotationVisitor;
+import  com.llmofang.objectweb.asm.MethodAdapter;
+import  com.llmofang.objectweb.asm.MethodVisitor;
+import  com.llmofang.objectweb.asm.Type;
 
 class SkipInstrumentedMethodsMethodVisitor extends MethodAdapter {
     public SkipInstrumentedMethodsMethodVisitor(MethodVisitor mv) {

@@ -10,6 +10,7 @@ class HingeInstrumentTask extends HingeTask{
     @TaskAction
     def hingInstrumentTask(){
         //extraArgs=null??
+        System.setProperty('Hinge.AgentArgs','logfile=HingeLogFile')
         def extraArgs=System.getProperty('Hinge.AgentArgs')
         def encodedProjectRoot=BaseEncoding.base64().encode(this.getProject().getProjectDir().getCanonicalPath().getBytes())
         def agentArgs="projectRoot="+encodedProjectRoot

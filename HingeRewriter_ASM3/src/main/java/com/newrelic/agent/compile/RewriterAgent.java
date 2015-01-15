@@ -9,15 +9,16 @@ import com.newrelic.agent.compile.visitor.PrefilterClassVisitor;
 import com.newrelic.agent.compile.visitor.TraceAnnotationClassVisitor;
 import com.newrelic.agent.compile.visitor.WrapMethodClassVisitor;
 import com.newrelic.agent.util.Streams;
-import org.objectweb.asm.ClassAdapter;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.AdviceAdapter;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import com.llmofang.objectweb.asm.ClassAdapter;
+import com.llmofang.objectweb.asm.ClassReader;
+import com.llmofang.objectweb.asm.ClassVisitor;
+import com.llmofang.objectweb.asm.ClassWriter;
+import com.llmofang.objectweb.asm.MethodVisitor;
+import com.llmofang.objectweb.asm.Type;
+import com.llmofang.objectweb.asm.commons.AdviceAdapter;
+import com.llmofang.objectweb.asm.commons.GeneratorAdapter;
+import com.llmofang.objectweb.asm.commons.Method;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -343,7 +344,7 @@ public class RewriterAgent {
                             this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", this.methodName)).loadArray(new Runnable[]{new Runnable() {
                                 public void run() {
                                     loadThis();
-                                    invokeVirtual(Type.getObjectType("java/lang/ProcessBuilder"), new org.objectweb.asm.commons.Method("command", "()Ljava/util/List;"));
+                                    invokeVirtual(Type.getObjectType("java/lang/ProcessBuilder"), new com.llmofang.objectweb.asm.commons.Method("command", "()Ljava/util/List;"));
                                 }
                             }
                             }).invokeDispatcher();
@@ -687,21 +688,21 @@ public class RewriterAgent {
         public BytecodeBuilder loadInvocationDispatcher() {
             this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
             this.mv.visitLdcInsn("treeLock");
-            this.mv.invokeVirtual(Type.getType(Class.class), new org.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
+            this.mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
 
             this.mv.dup();
             this.mv.visitInsn(4);
-            this.mv.invokeVirtual(Type.getType(Field.class), new org.objectweb.asm.commons.Method("setAccessible", "(Z)V"));
+            this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("setAccessible", "(Z)V"));
 
             this.mv.visitInsn(1);
 
-            this.mv.invokeVirtual(Type.getType(Field.class), new org.objectweb.asm.commons.Method("get", "(Ljava/lang/Object;)Ljava/lang/Object;"));
+            this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("get", "(Ljava/lang/Object;)Ljava/lang/Object;"));
 
             return this;
         }
 
         public BytecodeBuilder loadArgumentsArray(String methodDesc) {
-            org.objectweb.asm.commons.Method method = new org.objectweb.asm.commons.Method("dummy", methodDesc);
+            com.llmofang.objectweb.asm.commons.Method method = new com.llmofang.objectweb.asm.commons.Method("dummy", methodDesc);
             this.mv.push(method.getArgumentTypes().length);
             Type objectType = Type.getType(Object.class);
             this.mv.newArray(objectType);
@@ -751,7 +752,7 @@ public class RewriterAgent {
         }
 
         public BytecodeBuilder invokeDispatcher(boolean popReturnOffStack) {
-            this.mv.invokeInterface(Type.getType(InvocationHandler.class), new org.objectweb.asm.commons.Method("invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;"));
+            this.mv.invokeInterface(Type.getType(InvocationHandler.class), new com.llmofang.objectweb.asm.commons.Method("invoke", "(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;"));
             if (popReturnOffStack) {
                 this.mv.pop();
             }
