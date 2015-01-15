@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/HingeGradle/HingeGradle.iml" filepath="$PROJECT_DIR$/HingeGradle/HingeGradle.iml" />
       <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" />
       <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Wicket/Wicket.iml" filepath="$PROJECT_DIR$/Wicket/Wicket.iml" />
     </modules>
   </component>
 </project>

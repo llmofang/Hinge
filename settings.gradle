@@ -1,2 +1,2 @@
 rootProject.name = 'Hinge'
-include 'HingeGradle', 'HingeRewriter_ASM4', 'HingeRewriter_ASM3'
+include 'HingeGradle', 'HingeRewriter_ASM4', 'HingeRewriter_ASM3', 'Wicket'
