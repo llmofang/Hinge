@@ -341,6 +341,33 @@ public class RewriterAgent {
                 if ("start".equals(name)) {
                     mv = new SkipInstrumentedMethodsMethodVisitor(new RewriterAgent.BaseMethodVisitor(mv, access, name, desc) {
                         protected void onMethodEnter() {
+                            /**
+                             * this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
+                             this.mv.visitLdcInsn("treeLock");
+                             this.mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
+
+                             this.mv.dup();
+                             this.mv.visitInsn(4);
+                             this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("setAccessible", "(Z)V"));
+
+                             this.mv.visitInsn(1);
+
+                             this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("get", "(Ljava/lang/Object;)Ljava/lang/Object;"));
+                             this.mv.visitLdcInsn(java/lang/ProcessBuilder.start);
+
+                             this.mv.visitInsn(1);
+                             this.mv.push(r.length);
+                             Type objectType = Type.getObjectType("java/lang/Object");
+                             this.mv.newArray(objectType);
+
+                             for (int i = 0; i < r.length; i++) {
+                             this.mv.dup();
+                             this.mv.push(i);
+                             r[i].run();
+                             this.mv.arrayStore(objectType);
+                             }
+
+                             */
                             this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", this.methodName)).loadArray(new Runnable[]{new Runnable() {
                                 public void run() {
                                     loadThis();
