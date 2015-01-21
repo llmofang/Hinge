@@ -342,7 +342,8 @@ public class RewriterAgent {
                     mv = new SkipInstrumentedMethodsMethodVisitor(new RewriterAgent.BaseMethodVisitor(mv, access, name, desc) {
                         protected void onMethodEnter() {
                             /**
-                             * this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
+                             *
+                             this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
                              this.mv.visitLdcInsn("treeLock");
                              this.mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
 
@@ -584,7 +585,7 @@ public class RewriterAgent {
                             if (javaagentString != null) {
                                 //RewriterAgent.access$800()→RewriterAgent.agentArgs
                                 if (RewriterAgent.agentArgs!= null) {
-                                    javaagentString = javaagentString + "=" + RewriterAgent.getAgentJarPath();
+                                    javaagentString = javaagentString + "=" +RewriterAgent.agentArgs;
                                 }
                                 list.add(1, quoteProperty(javaagentString));
                             }
