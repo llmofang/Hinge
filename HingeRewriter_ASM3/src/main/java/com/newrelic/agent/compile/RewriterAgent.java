@@ -1,5 +1,6 @@
 package com.newrelic.agent.compile;
 
+import com.llmofang.objectweb.asm.*;
 import com.newrelic.agent.compile.visitor.ActivityClassVisitor;
 import com.newrelic.agent.compile.visitor.AnnotatingClassVisitor;
 import com.newrelic.agent.compile.visitor.AsyncTaskClassVisitor;
@@ -9,12 +10,6 @@ import com.newrelic.agent.compile.visitor.PrefilterClassVisitor;
 import com.newrelic.agent.compile.visitor.TraceAnnotationClassVisitor;
 import com.newrelic.agent.compile.visitor.WrapMethodClassVisitor;
 import com.newrelic.agent.util.Streams;
-import com.llmofang.objectweb.asm.ClassAdapter;
-import com.llmofang.objectweb.asm.ClassReader;
-import com.llmofang.objectweb.asm.ClassVisitor;
-import com.llmofang.objectweb.asm.ClassWriter;
-import com.llmofang.objectweb.asm.MethodVisitor;
-import com.llmofang.objectweb.asm.Type;
 import com.llmofang.objectweb.asm.commons.AdviceAdapter;
 import com.llmofang.objectweb.asm.commons.GeneratorAdapter;
 import com.llmofang.objectweb.asm.commons.Method;
@@ -75,6 +70,11 @@ public class RewriterAgent {
     private static Map<String, String> agentOptions = Collections.emptyMap();
 
     private static final HashSet<String> EXCLUDED_PACKAGES = new HashSet() {
+        {
+            add("com/newrelic/agent/android");
+            add("com/google/gson");
+            add("com/squareup/okhttp");
+        }
     };
 
     public static void agentmain(String agentArgs, Instrumentation instrumentation) {
@@ -485,7 +485,6 @@ public class RewriterAgent {
                 {
                     //access$700 → getProxyInvocationKey
                     put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
-                        @Override
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
                             byte[] bytes = (byte[]) args[1];
 
@@ -569,17 +568,18 @@ public class RewriterAgent {
                             File commandFile = new File(command);
 
                             if (isInstrumentationDisabled()) {
-                            log.info("Instrumentation disabled, no agent present.  Command: " + commandFile.getName());
-                            log.debug("Execute: " + list.toString());
-                            return null;
-                        }
+                                log.info("Instrumentation disabled, no agent present.  Command: " + commandFile.getName());
+                                log.debug("Execute: " + list.toString());
+                                return null;
+                            }
 
                             String javaagentString = null;
-                            if (RewriterAgent.getAgentOptions().containsKey(commandFile.getName().toLowerCase()))
+                           // String debugString="-Xdebug -Xrunjdwp:transport=dt_socket,address=1234,server=y,suspend=y";
+                            if (RewriterAgent.DX_COMMAND_NAMES.contains(commandFile.getName().toLowerCase()))
                                 //
                                 javaagentString = "-Jjavaagent:" + agentJarPath;
                             else if (RewriterAgent.JAVA_NAMES.contains(commandFile.getName().toLowerCase())) {
-                                javaagentString = "-javaagent:" + agentJarPath;
+                                javaagentString ="-javaagent:" + agentJarPath;
                         }
 
                             if (javaagentString != null) {
@@ -716,14 +716,20 @@ public class RewriterAgent {
         public BytecodeBuilder loadInvocationDispatcher() {
             this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
             this.mv.visitLdcInsn("treeLock");
-            this.mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
-
+            //this.mv.invokeVirtual(Type.getType(java/lang/Class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/CString;)Ljava/lang/reflect/Field;"));
+            mv.visitMethodInsn(182, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;");
+            mv.visitVarInsn(Opcodes.ASTORE, 1);
+            //this.mv.invokeVirtual(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/CString;)Ljava/lang/reflect/Field;"));
+            //Logger.class.getDeclaredField("treeLock");
+            //Class.class.getDeclaredField()
             this.mv.dup();
+           // Class.class;
+           // field.setAccessible(true);
             this.mv.visitInsn(4);
             this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("setAccessible", "(Z)V"));
 
             this.mv.visitInsn(1);
-
+            //field.get(null)
             this.mv.invokeVirtual(Type.getType(Field.class), new com.llmofang.objectweb.asm.commons.Method("get", "(Ljava/lang/Object;)Ljava/lang/Object;"));
 
             return this;
@@ -744,7 +750,7 @@ public class RewriterAgent {
             return this;
         }
 
-        public BytecodeBuilder loadArray(Runnable[] r) {
+        public  BytecodeBuilder loadArray(Runnable[] r) {
             this.mv.push(r.length);
             Type objectType = Type.getObjectType("java/lang/Object");
             this.mv.newArray(objectType);
@@ -752,6 +758,8 @@ public class RewriterAgent {
             for (int i = 0; i < r.length; i++) {
                 this.mv.dup();
                 this.mv.push(i);
+                //  loadThis();
+               // invokeVirtual(Type.getObjectType("java/lang/ProcessBuilder"), new com.llmofang.objectweb.asm.commons.Method("command", "()Ljava/util/List;"));
                 r[i].run();
                 this.mv.arrayStore(objectType);
             }
