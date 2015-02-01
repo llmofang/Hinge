@@ -91,8 +91,3 @@ public final class ClassMethod {
         return this.className + '.' + this.methodName + this.methodDesc;
     }
 }
-
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.ClassMethod
- * JD-Core Version:    0.6.2
- */

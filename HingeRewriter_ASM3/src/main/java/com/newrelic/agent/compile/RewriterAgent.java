@@ -191,6 +191,7 @@ public class RewriterAgent {
         byte[] newBytes = classTransformer.transform(klass.getClassLoader(), internalClassName, klass, null, output.toByteArray());
 
         ClassDefinition def = new ClassDefinition(klass, newBytes);
+
         instrumentation.redefineClasses(new ClassDefinition[]{def});
     }
 
@@ -226,7 +227,7 @@ public class RewriterAgent {
                                 log.debug("Found onMethodEnter in processClass");
 
                                 this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(RewriterAgent.getProxyInvocationKey(DEXER_MAIN_CLASS_NAME, this.methodName)).loadArgumentsArray(this.methodDesc).invokeDispatcher(false);
-                                checkCast(Type.getType(Byte[].class));
+                                checkCast(Type.getType("[B"));
                                 storeArg(1);
                             }
                         };
@@ -650,18 +651,18 @@ public class RewriterAgent {
                 if (!this.context.hasTag("Lcom/newrelic/agent/android/instrumentation/Instrumented;")) {
                     ClassVisitor cv = cw;
 
-                    if (this.context.getClassName().startsWith("com/newrelic/agent/android")) {
-                        cv = new NewRelicClassVisitor(cv, this.context, this.log);
+                    if (this.context.getClassName().startsWith("com/llmofang/android/agent")) {
+                        //cv = new NewRelicClassVisitor(cv, this.context, this.log);
                     } else if (this.context.getClassName().startsWith("android/support/")) {
-                        cv = new ActivityClassVisitor(cv, this.context, this.log);
+                        //cv = new ActivityClassVisitor(cv, this.context, this.log);
                     } else {
                         if (isExcludedPackage(this.context.getClassName())) {
                             return null;
                         }
-                        cv = new AnnotatingClassVisitor(cv, this.context, this.log);
-                        cv = new ActivityClassVisitor(cv, this.context, this.log);
-                        cv = new AsyncTaskClassVisitor(cv, this.context, this.log);
-                        cv = new TraceAnnotationClassVisitor(cv, this.context, this.log);
+                        //cv = new AnnotatingClassVisitor(cv, this.context, this.log);
+                        //cv = new ActivityClassVisitor(cv, this.context, this.log);
+                        //cv = new AsyncTaskClassVisitor(cv, this.context, this.log);
+                        //cv = new TraceAnnotationClassVisitor(cv, this.context, this.log);
                         cv = new WrapMethodClassVisitor(cv, this.context, this.log);
                     }
                     cv = new ContextInitializationClassVisitor(cv, this.context);
@@ -716,9 +717,10 @@ public class RewriterAgent {
         public BytecodeBuilder loadInvocationDispatcher() {
             this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
             this.mv.visitLdcInsn("treeLock");
-            //this.mv.invokeVirtual(Type.getType(java/lang/Class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/CString;)Ljava/lang/reflect/Field;"));
-            mv.visitMethodInsn(182, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;");
-            mv.visitVarInsn(Opcodes.ASTORE, 1);
+            mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
+
+            //mv.visitMethodInsn(182, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;");
+           // mv.visitVarInsn(Opcodes.ASTORE, 1);
             //this.mv.invokeVirtual(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/CString;)Ljava/lang/reflect/Field;"));
             //Logger.class.getDeclaredField("treeLock");
             //Class.class.getDeclaredField()

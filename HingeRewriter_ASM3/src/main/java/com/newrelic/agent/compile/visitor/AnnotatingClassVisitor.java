@@ -27,8 +27,3 @@ public class AnnotatingClassVisitor extends ClassAdapter {
         super.visitEnd();
     }
 }
-
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.visitor.AnnotatingClassVisitor
- * JD-Core Version:    0.6.2
- */

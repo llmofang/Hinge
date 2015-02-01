@@ -47,8 +47,9 @@ public class WrapMethodClassVisitor extends ClassAdapter {
             this.context = context;
             this.log = log;
         }
-
+        //visitMethodInsn(INVOKEVIRTUAL,"java/io/PrintStream","println","(Ljava/lang/String;)V");
         public void visitMethodInsn(int opcode, String owner, String name, String desc) {
+            //INVOKEDYNAMIC
             if (opcode == 186) {
                 this.log.warning(MessageFormat.format("[{0}] INVOKEDYNAMIC instruction cannot be instrumented", new Object[]{this.context.getClassName().replaceAll("/", ".")}));
                 super.visitMethodInsn(opcode, owner, name, desc);
@@ -143,7 +144,9 @@ public class WrapMethodClassVisitor extends ClassAdapter {
 
                     if ((this.newInstructionFound) && (!this.dupInstructionFound))
                         visitInsn(87);
-                } else if (opcode == 184) {
+                }
+                //INVOKESTATIC
+                else if (opcode == 184) {
                     this.log.info(MessageFormat.format("[{0}] replacing static call to {1} with {2}", new Object[]{this.context.getClassName().replaceAll("/", "."), method.toString(), replacementMethod.toString()}));
 
                     super.visitMethodInsn(184, replacementMethod.getClassName(), replacementMethod.getMethodName(), replacementMethod.getMethodDesc());
@@ -161,9 +164,10 @@ public class WrapMethodClassVisitor extends ClassAdapter {
                     }
 
                     dup();
-
+                    //Generates the instruction to test if the top stack value is of the given type.
                     instanceOf(newMethod.getArgumentTypes()[0]);
                     Label isInstanceOfLabel = new Label();
+                    //iflt 当栈顶int型数值小于0时跳转
                     visitJumpInsn(154, isInstanceOfLabel);
 
                     for (int local : locals) {
@@ -172,9 +176,10 @@ public class WrapMethodClassVisitor extends ClassAdapter {
                     super.visitMethodInsn(opcode, owner, name, desc);
 
                     Label end = new Label();
+                    //当栈顶int型数值不等于0时跳转
                     visitJumpInsn(167, end);
                     visitLabel(isInstanceOfLabel);
-
+                   // swap();
                     checkCast(newMethod.getArgumentTypes()[0]);
 
                     for (int local : locals) {
@@ -193,8 +198,3 @@ public class WrapMethodClassVisitor extends ClassAdapter {
         }
     }
 }
-
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.visitor.WrapMethodClassVisitor
- * JD-Core Version:    0.6.2
- */

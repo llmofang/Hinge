@@ -34,7 +34,7 @@ task fatJar(type: Jar) {
         attributes 'Can-Retransform-Classes': 'true'
         attributes 'Can-Redefine-Classes': 'true'
     }
-    baseName = project.name + '-all'
+    baseName = project.name
     from {
         configurations.compile.collect {
             it.isDirectory() ? it : zipTree(it)
