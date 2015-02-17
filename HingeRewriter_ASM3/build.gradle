@@ -11,6 +11,8 @@ repositories {
     mavenCentral()
     jcenter()
 }
+group = 'com.llmofang.hinge'
+version = '1.0'
 
 dependencies {
     //compile group: '', name: 'asm-all', version: '3.3.1'

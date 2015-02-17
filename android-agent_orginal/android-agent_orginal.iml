@@ -26,5 +26,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" exported="" name="okhttp" level="project" />
+    <orderEntry type="library" exported="" name="androidsdk" level="project" />
+    <orderEntry type="library" exported="" name="21.1" level="project" />
   </component>
 </module>

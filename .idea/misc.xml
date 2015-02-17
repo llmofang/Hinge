@@ -30,12 +30,22 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="android" url="file://$PROJECT_DIR$/androidTest" />
+  </component>
   <component name="GradleLocalSettings">
     <option name="modificationStamps">
       <map>
         <entry key="$PROJECT_DIR$" value="2838816505320" />
         <entry key="$USER_HOME$/xxx" value="2838812713104" />
       </map>
+    </option>
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="D:/github/maven-plugin/pom.xml" />
+      </list>
     </option>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -51,7 +61,7 @@
   <component name="ProjectModuleManager">
     <modules />
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
   <component name="ProjectType">

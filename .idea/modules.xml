@@ -7,7 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM3/HingeRewriter_ASM3.iml" />
       <module fileurl="file://$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" filepath="$PROJECT_DIR$/HingeRewriter_ASM4/HingeRewriter_ASM4.iml" />
       <module fileurl="file://$PROJECT_DIR$/Wicket/Wicket.iml" filepath="$PROJECT_DIR$/Wicket/Wicket.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android-agent/android-agent.iml" filepath="$PROJECT_DIR$/android-agent/android-agent.iml" />
+      <module fileurl="file://D:/github/maven-plugin/maven-plugin.iml" filepath="D:/github/maven-plugin/maven-plugin.iml" />
     </modules>
   </component>
 </project>
