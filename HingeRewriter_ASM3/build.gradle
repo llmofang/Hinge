@@ -50,20 +50,20 @@ task fatJar(type: Jar) {
     with jar
 }
 
-uberjar(type: Jar, dependsOn: jar) {
-    classifier = 'standalone'
-    from files(sourceSets.main.output.classesDir)
-    from files(sourceSets.main.output.resourcesDir)
-    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
-    manifest {
-        attributes 'Premain-Class': 'com.newrelic.agent.compile.RewriterAgent'
-        attributes 'Agent-Class': 'com.newrelic.agent.compile.RewriterAgent'
-        attributes 'Can-Retransform-Classes': 'true'
-        attributes 'Can-Redefine-Classes': 'true'
-    }
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-    exclude('META-INF/maven/**')
-}
+//uberjar(type: Jar, dependsOn: jar) {
+//    classifier = 'standalone'
+//    from files(sourceSets.main.output.classesDir)
+//    from files(sourceSets.main.output.resourcesDir)
+//    from configurations.runtime.asFileTree.files.collect { zipTree(it) }
+//    manifest {
+//        attributes 'Premain-Class': 'com.newrelic.agent.compile.RewriterAgent'
+//        attributes 'Agent-Class': 'com.newrelic.agent.compile.RewriterAgent'
+//        attributes 'Can-Retransform-Classes': 'true'
+//        attributes 'Can-Redefine-Classes': 'true'
+//    }
+//    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+//    exclude('META-INF/maven/**')
+//}
 
 jar {
     manifest {
@@ -84,14 +84,14 @@ uploadArchives {
     }
 }
 
-proguard(type: proguard.gradle.ProGuardTask,dependsOn:uberjar) {
-    ext{
-        jar.classifier="standalone"
-        injar= jar.archivePath
-        jar.classifier="proguard"
-        outJar= jar.archivePath
-    }
-    injars injar
-    outjars outJar
-    configuration 'proguard.pro'
-}
+//proguard(type: proguard.gradle.ProGuardTask,dependsOn:uberjar) {
+//    ext{
+//        jar.classifier="standalone"
+//        injar= jar.archivePath
+//        jar.classifier="proguard"
+//        outJar= jar.archivePath
+//    }
+//    injars injar
+//    outjars outJar
+//    configuration 'proguard.pro'
+//}

@@ -19,8 +19,8 @@ public class AnnotatingClassVisitor extends ClassAdapter {
 
     public void visitEnd() {
         if (this.context.isClassModified()) {
-            this.context.addUniqueTag("Lcom/newrelic/agent/android/instrumentation/Instrumented;");
-            super.visitAnnotation("Lcom/newrelic/agent/android/instrumentation/Instrumented;", false);
+            this.context.addUniqueTag("Lcom/llmofang/android/agent/Instrumented;");
+            super.visitAnnotation("Lcom/llmofang/android/agent/Instrumented;", false);
             this.log.info(MessageFormat.format("[{0}] tagging as instrumented", new Object[]{this.context.getFriendlyClassName()}));
         }
 

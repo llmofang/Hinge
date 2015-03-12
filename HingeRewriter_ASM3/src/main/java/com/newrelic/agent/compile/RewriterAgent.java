@@ -51,8 +51,8 @@ public class RewriterAgent {
 
     private static final Set<String> JAVA_NAMES = Collections.unmodifiableSet(new HashSet(Arrays.asList(new String[]{"java", "java.exe"})));
 
-    private static final Set<String> AGENT_JAR_NAMES = Collections.unmodifiableSet(new HashSet(Arrays.asList(new String[]{"newrelic.android.fat.jar", "newrelic.android.jar", "obfuscated.jar"})));
-    private static final String DISABLE_INSTRUMENTATION_SYSTEM_PROPERTY = "newrelic.instrumentation.disabled";
+    private static final Set<String> AGENT_JAR_NAMES = Collections.unmodifiableSet(new HashSet(Arrays.asList(new String[]{"llmofang.android.fat.jar", "llmofang.android.jar", "obfuscated.jar"})));
+    private static final String DISABLE_INSTRUMENTATION_SYSTEM_PROPERTY = "llmofang.instrumentation.disabled";
     private static final String INVOCATION_DISPATCHER_FIELD_NAME = "treeLock";
     private static final Class INVOCATION_DISPATCHER_CLASS = Logger.class;
     private static final String SET_INSTRUMENTATION_DISABLED_FLAG = "SET_INSTRUMENTATION_DISABLED_FLAG";
@@ -71,7 +71,7 @@ public class RewriterAgent {
 
     private static final HashSet<String> EXCLUDED_PACKAGES = new HashSet() {
         {
-            add("com/newrelic/agent/android");
+            add("com/llmofang/android");
             add("com/google/gson");
             add("com/squareup/okhttp");
         }
@@ -217,7 +217,7 @@ public class RewriterAgent {
         return new ClassAdapterBase(log, cw, new HashMap() {
             {
 
-                put(new Method("processClass", "(Ljava/lang/String;[B)Z"), new MethodVisitorFactory()
+                put(new Method(PROCESS_CLASS_METHOD_NAME, "(Ljava/lang/String;[B)Z"), new MethodVisitorFactory()
                 {
                     public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
                     {
@@ -241,7 +241,7 @@ public class RewriterAgent {
 
         return new ClassAdapterBase(log, cw,new HashMap<Method, MethodVisitorFactory>(){
             {
-                put(new Method("executeDx", "(Lorg/eclipse/jdt/core/IJavaProject;Ljava/util/Collection;Ljava/lang/String;)V"), new MethodVisitorFactory()
+                put(new Method(EXECUTE_DX_METHOD_NAME, "(Lorg/eclipse/jdt/core/IJavaProject;Ljava/util/Collection;Ljava/lang/String;)V"), new MethodVisitorFactory()
                 {
                     public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
                     {
@@ -251,12 +251,12 @@ public class RewriterAgent {
                             {
                                log.debug("Found onMethodEnter in executeDx");
 
-                                this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadArray(new Runnable[] { new Runnable()
+                                this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(SET_INSTRUMENTATION_DISABLED_FLAG).loadArray(new Runnable[] { new Runnable()
                                 {
                                     public void run()
                                     {
                                         loadArg(0);
-                                        visitLdcInsn("com.newrelic.agent.android.Agent");
+                                        visitLdcInsn("com.llmofang.android.agent.LLMoFang");
                                         invokeInterface(Type.getObjectType("org/eclipse/jdt/core/IJavaProject"), new Method("findType", "(Ljava/lang/String;)Lorg/eclipse/jdt/core/IType;"));
                                     }
                                 }
@@ -271,10 +271,10 @@ public class RewriterAgent {
     }
 
     private static ClassAdapter createAntTaskClassAdapter(ClassVisitor cw, Log log) {
-        String agentFileFieldName = "NewRelicAgentFile";
+        final String agentFileFieldName = "LLMoFangAgentFile";
         Map methodVisitors = new HashMap() {
             {
-                put(new Method("preDexLibraries", "(Ljava/util/List;)V"), new MethodVisitorFactory() {
+                put(new Method(PRE_DEX_LIBRARIES_METHOD_NAME, "(Ljava/util/List;)V"), new MethodVisitorFactory() {
 
                             public MethodVisitor create(MethodVisitor mv, int access, String name, String desc)
                             {
@@ -294,7 +294,7 @@ public class RewriterAgent {
                                         }).invokeDispatcher(false);
                                         loadThis();
                                         swap();
-                                        putField(Type.getObjectType("com/android/ant/DexExecTask"), "NewRelicAgentFile", Type.getType(Object.class));
+                                        putField(Type.getObjectType("com/android/ant/DexExecTask"), agentFileFieldName, Type.getType(Object.class));
                                     }
                                 };
                             }
@@ -308,13 +308,13 @@ public class RewriterAgent {
 
                                     protected void onMethodEnter()
                                     {
-                                        builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadArray(new Runnable[] {
+                                        builder.loadInvocationDispatcher().loadInvocationDispatcherKey(SET_INSTRUMENTATION_DISABLED_FLAG).loadArray(new Runnable[] {
                                                 new Runnable() {
 
                                                     public void run()
                                                     {
                                                         loadThis();
-                                                        getField(Type.getObjectType("com/android/ant/DexExecTask"), "NewRelicAgentFile", Type.getType(Object.class));
+                                                        getField(Type.getObjectType("com/android/ant/DexExecTask"), agentFileFieldName, Type.getType(Object.class));
                                                     }
                                                 }
 
@@ -339,7 +339,7 @@ public class RewriterAgent {
             public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
                 MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
 
-                if ("start".equals(name)) {
+                if (START_METHOD_NAME.equals(name)) {
                     mv = new SkipInstrumentedMethodsMethodVisitor(new RewriterAgent.BaseMethodVisitor(mv, access, name, desc) {
                         protected void onMethodEnter() {
                             /**
@@ -411,8 +411,7 @@ public class RewriterAgent {
                                     push(0);
 
                                     String agentCommand = "-javaagent:" + agentJarPath;
-                                    //RewriterAgent.access$800？？？猜是RewriterAgent.getVersion()
-                                    if (RewriterAgent.getVersion()!= null) {
+                                    if (RewriterAgent.agentArgs!= null) {
                                         agentCommand = agentCommand + "=" + RewriterAgent.getVersion();
                                     }
 
@@ -444,7 +443,7 @@ public class RewriterAgent {
         //获取Logger字段treeLock
         ///The fields relating to parent-child relationships and levels
         // are managed under a separate lock, the treeLock.
-        Field field = INVOCATION_DISPATCHER_CLASS.getDeclaredField("treeLock");
+        Field field = INVOCATION_DISPATCHER_CLASS.getDeclaredField(INVOCATION_DISPATCHER_FIELD_NAME);
         //修改为允许外部访问
         field.setAccessible(true);
 
@@ -485,7 +484,7 @@ public class RewriterAgent {
             this.invocationHandlers = Collections.unmodifiableMap(new HashMap() {
                 {
                     //access$700 → getProxyInvocationKey
-                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", "processClass"), new InvocationHandler() {
+                    put(RewriterAgent.getProxyInvocationKey("com/android/dx/command/dexer/Main", PROCESS_CLASS_METHOD_NAME), new InvocationHandler() {
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
                             byte[] bytes = (byte[]) args[1];
 
@@ -520,7 +519,7 @@ public class RewriterAgent {
 
                     });
 
-                    put(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", "preDexLibraries"), new InvocationHandler()
+                    put(RewriterAgent.getProxyInvocationKey("com/android/ant/DexExecTask", PRE_DEX_LIBRARIES_METHOD_NAME), new InvocationHandler()
                     {
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
@@ -537,18 +536,19 @@ public class RewriterAgent {
                             return null;
                         }
                     });
-                    put("SET_INSTRUMENTATION_DISABLED_FLAG", new InvocationHandler()
+                    put(SET_INSTRUMENTATION_DISABLED_FLAG, new InvocationHandler()
                     {
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
                         {
                             disableInstrumentation= ((args != null) && (args[0] == null));
+                            //disableInstrumentation= false;
 
                             log.debug("DisableInstrumentation: " + disableInstrumentation + " (" + args + ")");
                             return null;
                         }
                     });
-                    put("PRINT_TO_INFO_LOG", new InvocationHandler()
+                    put(PRINT_TO_INFO_LOG, new InvocationHandler()
                     {
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
@@ -557,7 +557,7 @@ public class RewriterAgent {
                             return null;
                         }
                     });
-                    put(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", "start"), new InvocationHandler()
+                    put(RewriterAgent.getProxyInvocationKey("java/lang/ProcessBuilder", START_METHOD_NAME), new InvocationHandler()
                     {
                         public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args)
                                 throws Throwable
@@ -608,7 +608,7 @@ public class RewriterAgent {
         }
 
         private  boolean isInstrumentationDisabled() {
-            return (this.disableInstrumentation) || (System.getProperty("newrelic.instrumentation.disabled") != null);
+            return (this.disableInstrumentation) || (System.getProperty(DISABLE_INSTRUMENTATION_SYSTEM_PROPERTY) != null);
         }
 
         private boolean isExcludedPackage(String packageName) {
@@ -659,7 +659,7 @@ public class RewriterAgent {
                         if (isExcludedPackage(this.context.getClassName())) {
                             return null;
                         }
-                        //cv = new AnnotatingClassVisitor(cv, this.context, this.log);
+                        cv = new AnnotatingClassVisitor(cv, this.context, this.log);
                         //cv = new ActivityClassVisitor(cv, this.context, this.log);
                         //cv = new AsyncTaskClassVisitor(cv, this.context, this.log);
                         //cv = new TraceAnnotationClassVisitor(cv, this.context, this.log);
@@ -716,7 +716,7 @@ public class RewriterAgent {
 
         public BytecodeBuilder loadInvocationDispatcher() {
             this.mv.visitLdcInsn(Type.getType(RewriterAgent.INVOCATION_DISPATCHER_CLASS));
-            this.mv.visitLdcInsn("treeLock");
+            this.mv.visitLdcInsn(INVOCATION_DISPATCHER_FIELD_NAME);
             mv.invokeVirtual(Type.getType(Class.class), new com.llmofang.objectweb.asm.commons.Method("getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;"));
 
             //mv.visitMethodInsn(182, "java/lang/Class", "getDeclaredField", "(Ljava/lang/String;)Ljava/lang/reflect/Field;");
@@ -772,7 +772,7 @@ public class RewriterAgent {
         public BytecodeBuilder printToInfoLogFromBytecode(final String message) {
             loadInvocationDispatcher();
 
-            this.mv.visitLdcInsn("PRINT_TO_INFO_LOG");
+            this.mv.visitLdcInsn(PRINT_TO_INFO_LOG);
             this.mv.visitInsn(1);
 
             loadArray(new Runnable[]{new Runnable() {
@@ -812,7 +812,7 @@ public class RewriterAgent {
         }
 
         protected final void onMethodExit(int opcode) {
-            this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey("SET_INSTRUMENTATION_DISABLED_FLAG").loadNull().invokeDispatcher();
+            this.builder.loadInvocationDispatcher().loadInvocationDispatcherKey(SET_INSTRUMENTATION_DISABLED_FLAG).loadNull().invokeDispatcher();
 
             super.onMethodExit(opcode);
         }
@@ -892,8 +892,10 @@ public class RewriterAgent {
 
                     return cw.toByteArray();
                 } catch (SkipException ex) {
+                  //  ex.printStackTrace();
                 } catch (Exception ex) {
                     this.log.error("Error transforming class " + className, ex);
+                  //  ex.printStackTrace();
                 }
             }
 
