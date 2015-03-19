@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.sf.proguard:proguard-base:5.2">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.2/614307856a93cda12cad9c56428df56116ce8878/proguard-base-5.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.sf.proguard/proguard-base/5.2/2418c8b202ad0f43d4d46dcac292dee18d4a6e74/proguard-base-5.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

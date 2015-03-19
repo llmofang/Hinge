@@ -58,8 +58,3 @@ public final class Shim {
         return new File(directory.getAbsolutePath() + File.separator + packageDir + className + ".class");
     }
 }
-
-/* Location:           /home/cw/class-rewriter/class-rewriter-4.120.0.jar
- * Qualified Name:     com.newrelic.agent.compile.Shim
- * JD-Core Version:    0.6.2
- */
